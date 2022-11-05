@@ -4,32 +4,35 @@ import {ingredientItem, _BREAD, _SAUCE, _FILLING} from "../../utils/const";
 import PropTypes from "prop-types";
 
 const BurgerConstructList = ({ingredients}) => {
+    const breadArr = ingredients.filter((item) => item.type === _BREAD);
+    const souceArr = ingredients.filter((item) => item.type === _SAUCE);
+    const mainArr =  ingredients.filter((item) => item.type === _FILLING);
     return (
         <div className={styles.list}>
             <p className="text text_type_main-medium">
                 Булки
             </p>
             <div className={styles.section}>
-                {ingredients.map((item, index) => (item.type === _BREAD && <BurgerConstructItem key={index} item={item} />))}
+                {breadArr.map((item, index) => (<BurgerConstructItem key={index} item={item} />))}
             </div>
             <p className="text text_type_main-medium">
                 Соусы
             </p>
             <div className={styles.section}>
-                {ingredients.map((item, index) => (item.type === _SAUCE && <BurgerConstructItem key={index} item={item} />))}
+                {souceArr.map((item, index) => (<BurgerConstructItem key={index} item={item} />))}
             </div>
             <p className="text text_type_main-medium">
                 Начинки
             </p>
             <div className={styles.section}>
-                {ingredients.map((item, index) => (item.type === _FILLING && <BurgerConstructItem key={index} item={item} />))}
+                {mainArr.map((item, index) => (<BurgerConstructItem key={index} item={item} />))}
             </div>
         </div>
     )
 }
 
 BurgerConstructList.propTypes = {
-    ingredients: PropTypes.arrayOf(ingredientItem)
+    ingredients: PropTypes.arrayOf(ingredientItem).isRequired
 }
 
 export default BurgerConstructList

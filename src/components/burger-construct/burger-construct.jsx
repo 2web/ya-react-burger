@@ -1,5 +1,7 @@
 import BurgerConstructTabs from "../burger-construct-tabs/burger-construct-tabs";
 import BurgerConstructList from "../burger-construct-list/burger-construct-list";
+import {ingredientItem} from "../../utils/const";
+import PropTypes from "prop-types";
 
 const BurgerConstruct = (data) => {
     return(
@@ -9,6 +11,10 @@ const BurgerConstruct = (data) => {
             <BurgerConstructList ingredients={data.data}/>
         </section>
     )
+}
+
+BurgerConstruct.propTypes = {
+    data: PropTypes.arrayOf(ingredientItem)
 }
 
 export default BurgerConstruct
