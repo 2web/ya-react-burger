@@ -1,0 +1,21 @@
+.login {
+    justify-self: end
+}
+.login:hover p {
+    color: #fff;
+    transition: all .2s linear
+}
+
+.login:hover svg {
+    fill: #fff;
+    transition: all .2s linear
+}
+
+.login_link {
+    display: flex;
+    align-items: center;
+
+    cursor: pointer;
+    text-decoration: none;
+    color: unset
+}

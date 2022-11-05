@@ -1,0 +1,7 @@
+.app_container {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    column-gap: 40px;
+    max-width: 1240px;
+    margin: 0 auto
+  }

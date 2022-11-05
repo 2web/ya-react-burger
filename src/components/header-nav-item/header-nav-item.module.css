@@ -1,0 +1,18 @@
+.item {
+    display: flex;
+    align-items: center;
+
+    cursor: pointer;
+    text-decoration: none;
+    color: unset
+}
+
+.item:hover p {
+    color: #fff;
+    transition: all .2s linear
+}
+
+.item:hover svg {
+    fill: #fff;
+    transition: all .2s linear
+}
