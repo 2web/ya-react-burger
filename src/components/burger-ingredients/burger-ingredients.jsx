@@ -1,4 +1,5 @@
 import styles from "./burger-ingredients.module.css";
+import "./styles.css";
 import { ConstructorElement } from "@ya.praktikum/react-developer-burger-ui-components";
 import { DragIcon } from "@ya.praktikum/react-developer-burger-ui-components";
 
@@ -7,11 +8,11 @@ import PropTypes from "prop-types";
 import { _BREAD } from "../../utils/const";
 import {useMemo} from "react";
 
-const BurgerIngredients = (props) => {
+const BurgerIngredients = ({ data }) => {
 
   const totalPrice = useMemo(() => (
-    props.data.map((item) => item.price).reduce((a, b) => a + b, 0)), 
-    [props.data])
+    data.map((item) => item.price).reduce((a, b) => a + b, 0)), 
+    [data]);
 
   return (
     <section className={styles.section}>
@@ -21,13 +22,13 @@ const BurgerIngredients = (props) => {
             key={0}
             type="top"
             isLocked={true}
-            text={props.data[0].name}
-            price={props.data[0].price}
-            thumbnail={props.data[0].image}
+            text={data && data.length && data[0].name}
+            price={data && data.length && data[0].price}
+            thumbnail={data && data.length && data[0].image}
           />
         </div>
         <div className={styles.ingredients_list}>
-          {props.data.map((ingredient, index) => {
+          {data && data.length && data.map((ingredient, index) => {
             return ingredient.type !== _BREAD && (
               <div key={ingredient._id} className={styles.item}>
                 <DragIcon type="primary" />
@@ -45,19 +46,26 @@ const BurgerIngredients = (props) => {
             key={1}
             type="bottom"
             isLocked={true}
-            text={props.data[props.data.length - 1].name}
-            price={props.data[props.data.length - 1].price}
-            thumbnail={props.data[props.data.length - 1].image}
+            text={data && data.length && data[0].name}
+            price={data && data.length && data[0].price}
+            thumbnail={data && data.length && data[0].image}
           />
         </div>
       </div>
-      <ConstructTotal value={totalPrice} />
+      <ConstructTotal totalVal={totalPrice} />
     </section>
   );
 };
 
+ConstructorElement.propTypes = {
+    type: PropTypes.string,
+    isLocked: PropTypes.bool,
+    text: PropTypes.any.isRequired,
+    price: PropTypes.number.isRequired
+};
+
 ConstructTotal.propTypes = {
-  value: PropTypes.number.isRequired
+    totalVal: PropTypes.number
 };
 
 export default BurgerIngredients;

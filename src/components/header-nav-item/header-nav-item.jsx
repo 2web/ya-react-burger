@@ -6,7 +6,7 @@ const NavItem = (props) => {
     <li>
       <a href="/" className={`${styles.item} pl-5 pr-5`}>
         {props.children}
-        <p className={`text text_type_main-default ml-2 ${props.isActive ? "" : "text_color_inactive"}`}>
+        <p className={`text text_type_main-default ml-2 ${!props.isActive && "text_color_inactive"}`}>
           {props.value}
         </p>
       </a>
@@ -16,7 +16,8 @@ const NavItem = (props) => {
 
 NavItem.propTypes = {
   isActive: PropTypes.bool,
-  value: PropTypes.string
+  value: PropTypes.string.isRequired,
+  children: PropTypes.element.isRequired
 };
 
 export default NavItem;

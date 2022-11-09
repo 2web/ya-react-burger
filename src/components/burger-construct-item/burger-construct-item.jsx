@@ -3,22 +3,41 @@ import {Counter, CurrencyIcon} from "@ya.praktikum/react-developer-burger-ui-com
 import {ingredientItem} from "../../utils/const";
 import PropTypes from "prop-types";
 
-const BurgerConstructItem = ({item}) => {
+import React from "react";
+import Modal from "../modal/modal";
+import useModal from '../../custom-hooks/use-modal';
+import IngredientDetails from '../detail/detail';
+
+const BurgerConstructItem = ({count, card}) => {
+    const { name, image, price } = card
+    const { isOpen, handleOpen, handleClose, handleCloseOverlay } = useModal();
+
     return (
-        <div className={styles.card}>
-            <img src={item.image} alt={item.name} title={item.name} />
-            <div className={`${styles.price} pt-1 pb-1`}>
-                <p className="text text_type_digits-default mr-2">{item.price}</p>
-                <CurrencyIcon type="primary" />
+        <>
+            <div className={styles.card}  onClick={handleOpen}>
+                <img src={image} alt={name} title={name} />
+                <div className={`${styles.price} pt-1 pb-1`}>
+                    <p className="text text_type_digits-default mr-2">{price}</p>
+                    <CurrencyIcon type="primary" />
+                </div>
+                <p className={`${styles.name} text text_type_main-default`}>{name}</p>
+                { count && <Counter count={count} size="default" /> }
             </div>
-            <p className={`${styles.name} text text_type_main-default`}>{item.name}</p>
-            <Counter count={1} size="default"/>
-        </div>
+            <Modal
+                header="Детали ингредиента"
+                isOpened={isOpen}
+                onClose={handleClose}
+                handleCloseOverlay={handleCloseOverlay}
+            >
+                <IngredientDetails card={card} />
+            </Modal>
+        </>
     )
 }
 
 BurgerConstructItem.propTypes = {
-    data: PropTypes.arrayOf(ingredientItem)
-}
+    count: PropTypes.number,
+    card: PropTypes.shape({ ingredientItem }).isRequired,
+};
 
 export default BurgerConstructItem
