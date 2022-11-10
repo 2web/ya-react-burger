@@ -18,17 +18,30 @@ const BurgerIngredients = ({ data }) => {
     <section className={styles.section}>
       <div className={styles.section_inner}>
         <div className={"pl-8"}>
-          <ConstructorElement
-            key={0}
-            type="top"
-            isLocked={true}
-            text={data && data.length && data[0].name}
-            price={data && data.length && data[0].price}
-            thumbnail={data && data.length && data[0].image}
-          />
+          {
+            data && data.length && data[0].name !== "" && data[0].price > 0 ?
+             (
+                <ConstructorElement
+                    key={0}
+                    type="top"
+                    isLocked={true}
+                    text={data && data.length && data[0].name}
+                    price={data && data.length && data[0].price}
+                    thumbnail={data && data.length && data[0].image}
+                />
+             ) :
+             (
+                <div className="constructor-element constructor-element_pos_top">
+                    <span>
+                    </span>
+                </div>
+             )
+          }
         </div>
         <div className={styles.ingredients_list}>
-          {data && data.length && data.map((ingredient, index) => {
+        {
+          data && data.length ? 
+          (data.map((ingredient, index) => {
             return ingredient.type !== _BREAD && (
               <div key={ingredient._id} className={styles.item}>
                 <DragIcon type="primary" />
@@ -38,18 +51,39 @@ const BurgerIngredients = ({ data }) => {
                   thumbnail={ingredient.image}
                 />
               </div>
-            );
-          })}
+            )
+          }
+            )):
+            (
+                <div className={"pl-8"}>
+                    <div className="constructor-element">
+                        <span>
+                        </span>
+                    </div>
+                </div>
+             )
+        }
         </div>
         <div className={"pl-8"}>
-          <ConstructorElement
-            key={1}
-            type="bottom"
-            isLocked={true}
-            text={data && data.length && data[0].name}
-            price={data && data.length && data[0].price}
-            thumbnail={data && data.length && data[0].image}
-          />
+            {
+                data && data.length && data[0].name !== "" && data[0].price > 0 ?
+                (
+                    <ConstructorElement
+                        key={1}
+                        type="bottom"
+                        isLocked={true}
+                        text={data && data.length && data[0].name}
+                        price={data && data.length && data[0].price}
+                        thumbnail={data && data.length && data[0].image}
+                    />
+                ) :
+                (
+                    <div className="constructor-element constructor-element_pos_bottom">
+                        <span>
+                        </span>
+                    </div>
+                )
+            }
         </div>
       </div>
       <ConstructTotal totalVal={totalPrice} />
