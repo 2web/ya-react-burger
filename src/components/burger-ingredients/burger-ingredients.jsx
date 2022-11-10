@@ -32,7 +32,10 @@ const BurgerIngredients = ({ data }) => {
              ) :
              (
                 <div className="constructor-element constructor-element_pos_top">
-                    <span>
+                    <span className={"constructor-element__row align-center"}>
+                        <span className={"constructor-element__note"}>
+                            Выберите булку
+                        </span>
                     </span>
                 </div>
              )
@@ -56,8 +59,11 @@ const BurgerIngredients = ({ data }) => {
             )):
             (
                 <div className={"pl-8"}>
-                    <div className="constructor-element">
-                        <span>
+                    <div className={"constructor-element"}>
+                        <span className={"constructor-element__row align-center"}>
+                            <span className={"constructor-element__note"}>
+                                Выберите начинку
+                            </span>
                         </span>
                     </div>
                 </div>
@@ -79,7 +85,10 @@ const BurgerIngredients = ({ data }) => {
                 ) :
                 (
                     <div className="constructor-element constructor-element_pos_bottom">
-                        <span>
+                        <span className={"constructor-element__row align-center"}>
+                            <span className={"constructor-element__note"}>
+                                Выберите булку
+                            </span>
                         </span>
                     </div>
                 )

@@ -11,3 +11,14 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+
+.constructor-element__row.align-center{
+  justify-content: center;
+}
+
+.constructor-element__note{
+  text-align: center;
+  align-self: center;
+  height: 45px;
+  line-height: 47px;
+}
