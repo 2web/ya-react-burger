@@ -1,6 +1,7 @@
+const checkReponse = (res) => {
+    return res.ok ? res.json() : res.json().then((err) => Promise.reject(err));
+};
+
 export const fetchQ = (url, callBack) => {
-    fetch(url)
-    .then((res) => res.json())
-    .then((data) => callBack(data.data))
-    .catch((err) => console.log(err));
+  return fetch(url).then(checkReponse).then((data) => callBack(data.data));
 };

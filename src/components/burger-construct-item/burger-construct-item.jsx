@@ -37,7 +37,7 @@ const BurgerConstructItem = ({count, card}) => {
 
 BurgerConstructItem.propTypes = {
     count: PropTypes.number,
-    card: PropTypes.shape({ ingredientItem }).isRequired,
+    card: PropTypes.shape({ ingredientItem }).isRequired
 };
 
 export default BurgerConstructItem

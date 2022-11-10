@@ -5,6 +5,7 @@ import { DragIcon } from "@ya.praktikum/react-developer-burger-ui-components";
 
 import ConstructTotal from "../construct-total/construct-total";
 import PropTypes from "prop-types";
+import {ingredientItem} from "../../utils/const";
 import { _BREAD } from "../../utils/const";
 import {useMemo} from "react";
 
@@ -19,15 +20,15 @@ const BurgerIngredients = ({ data }) => {
       <div className={styles.section_inner}>
         <div className={"pl-8"}>
           {
-            data && data.length && data[0].name !== "" && data[0].price > 0 ?
+            data.length ?
              (
                 <ConstructorElement
                     key={0}
                     type="top"
                     isLocked={true}
-                    text={data && data.length && data[0].name}
-                    price={data && data.length && data[0].price}
-                    thumbnail={data && data.length && data[0].image}
+                    text={data[0].name}
+                    price={data[0].price}
+                    thumbnail={data[0].image}
                 />
              ) :
              (
@@ -43,7 +44,7 @@ const BurgerIngredients = ({ data }) => {
         </div>
         <div className={styles.ingredients_list}>
         {
-          data && data.length ? 
+          data.length ? 
           (data.map((ingredient, index) => {
             return ingredient.type !== _BREAD && (
               <div key={ingredient._id} className={styles.item}>
@@ -72,15 +73,15 @@ const BurgerIngredients = ({ data }) => {
         </div>
         <div className={"pl-8"}>
             {
-                data && data.length && data[0].name !== "" && data[0].price > 0 ?
+                data.length ?
                 (
                     <ConstructorElement
                         key={1}
                         type="bottom"
                         isLocked={true}
-                        text={data && data.length && data[0].name}
-                        price={data && data.length && data[0].price}
-                        thumbnail={data && data.length && data[0].image}
+                        text={data[0].name}
+                        price={data[0].price}
+                        thumbnail={data[0].image}
                     />
                 ) :
                 (
@@ -109,6 +110,10 @@ ConstructorElement.propTypes = {
 
 ConstructTotal.propTypes = {
     totalVal: PropTypes.number
+};
+
+BurgerIngredients.propTypes = {
+    data: PropTypes.arrayOf(ingredientItem).isRequired
 };
 
 export default BurgerIngredients;
