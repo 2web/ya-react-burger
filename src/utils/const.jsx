@@ -15,6 +15,25 @@ export const ingredientItem = PropTypes.shape({
     __v: PropTypes.number
 })
 
+export const ingredientDetailsPropTypes = PropTypes.shape({
+    _id: PropTypes.string.isRequired,
+    calories: PropTypes.number.isRequired,
+    carbohydrates: PropTypes.number.isRequired,
+    fat: PropTypes.number.isRequired,
+    image_large: PropTypes.string.isRequired,
+    name: PropTypes.string.isRequired,
+    price: PropTypes.number.isRequired,
+    proteins: PropTypes.number.isRequired,
+});
+
 export const _BREAD = "bun"
 export const _SAUCE = "sauce"
 export const _FILLING = "main"
+
+export const _calTitle = "Калорий,ккал"
+export const _prTitle = "Белки, г"
+export const _faTitle = "Жиры, г"
+export const _carTitle = "Углеводы, г"
+
+export const _URL = "https://norma.nomoreparties.space";
+export const _ING = "/api/ingredients";

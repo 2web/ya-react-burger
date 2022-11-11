@@ -1,0 +1,24 @@
+.header {
+    position: relative;
+    height: 64px;
+    display: flex;
+    align-items: center;
+}
+
+.close {
+    position: absolute;
+    top: 20px;
+    right: 0;
+    width: 24px;
+    height: 24px;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    transition: all .2s linear;
+}
+
+.close:hover {
+    transform: rotate(180deg);
+}

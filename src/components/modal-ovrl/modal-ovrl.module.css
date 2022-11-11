@@ -1,0 +1,17 @@
+.modal_ovrl {
+    position: absolute;
+    inset: 0;
+    background-color: rgba(0, 0, 0, 60%);
+    cursor: pointer;
+}
+
+.container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    
+    position: fixed;
+    inset: 0;
+    padding: 40px;
+    z-index: 999;
+}

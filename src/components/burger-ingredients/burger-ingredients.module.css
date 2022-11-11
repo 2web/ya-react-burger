@@ -38,3 +38,7 @@
     cursor: grab;
     margin-right: 8px
 }
+
+.bottom_ri img{
+    transform: rotate(180deg);
+}

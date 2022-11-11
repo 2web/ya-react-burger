@@ -6,15 +6,13 @@ import LoginBox from "../login-box/login-box";
 
 const AppHeader = () => {
     return (
-        <>
-            <header className={`${styles.header} pt-4 pb-4`} >
-                <HeaderNavigation/>
-                <div className={styles.logo}>
-                    <Logo/>
-                </div>
-                <LoginBox />
-            </header>
-        </>
+        <header className={`${styles.header} pt-4 pb-4`} >
+            <HeaderNavigation/>
+            <div className={styles.logo}>
+                <Logo/>
+            </div>
+            <LoginBox />
+        </header>
     )
 }
 

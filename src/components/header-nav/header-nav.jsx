@@ -2,7 +2,7 @@ import styles from './header-nav.module.css'
 import {BurgerIcon, ListIcon} from "@ya.praktikum/react-developer-burger-ui-components";
 import NavItem from "../header-nav-item/header-nav-item";
 
-function HeaderNavigation() {
+const HeaderNavigation = () => {
     return (
         <nav>
             <ul className={styles.list}>
