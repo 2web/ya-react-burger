@@ -1,5 +1,5 @@
 import { createContext } from "react";
 
-const ingredientsContext = createContext([]);
+const IngredientsContext = createContext([]);
 
-export default ingredientsContext;
+export default IngredientsContext;

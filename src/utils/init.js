@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
-import { fetchGet } from '../utils/fetch';
-import { _URL, _ING } from "../utils/const";
+import { fetchGet } from './fetch';
+import { _URL, _ING } from "./const";
 
 function useGetBase() {
   const [dBase, setdBase] = useState([]);

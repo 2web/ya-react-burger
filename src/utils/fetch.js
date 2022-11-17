@@ -1,6 +1,12 @@
 const checkReponse = (promise) => {
     return promise.then((res) => {
-      return res.ok ? res.json() : Promise.reject(`Ошибка ${res.status}`);
+      if (!res.ok) {
+        let err = new Error("HTTP status code: " + res.status)
+        err.response = res
+        err.status = res.status
+        throw err
+      }
+      return res.json();
     });
 };
 
