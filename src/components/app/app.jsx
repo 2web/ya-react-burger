@@ -1,7 +1,7 @@
 import Header from "../header/header";
 import MainConstr from '../../pages/main';
-import ingredientsContext from '../../context/ingredients-context';
-import constructorContext from '../../context/construct-context';
+import IngredientsContext from '../../context/ingredients-context';
+import ConstructorContext from '../../context/construct-context';
 import useGetBase from '../../utils/init';
 import ErrorBoundary from "../error/error";
 import {useReducer,useEffect} from "react";
@@ -47,12 +47,12 @@ function App() {
     return (
         <main>
             <ErrorBoundary>
-                <ingredientsContext.Provider value={{ dBase, setdBase }}>
-                    <constructorContext.Provider value={{ banState, setBanState}}>
+                <IngredientsContext.Provider value={{ dBase, setdBase }}>
+                    <ConstructorContext.Provider value={{ banState, setBanState}}>
                         <Header/>
                         <MainConstr/>
-                    </constructorContext.Provider>
-                </ingredientsContext.Provider>
+                    </ConstructorContext.Provider>
+                </IngredientsContext.Provider>
             </ErrorBoundary>
         </main>
     );
