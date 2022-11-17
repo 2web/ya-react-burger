@@ -1,27 +1,58 @@
 import Header from "../header/header";
-import BurgerConstructor from "../burger-construct/burger-construct";
-import BurgerIngredients from "../burger-ingredients/burger-ingredients";
+import MainConstr from '../../pages/main';
+import ingredientsContext from '../../context/ingredients-context';
+import constructorContext from '../../context/construct-context';
+import useGetBase from '../../utils/init';
 import ErrorBoundary from "../error/error";
-import React from "react";
-import { _URL,_ING } from "../../utils/const";
-import { fetchQ } from "../../utils/fetch";
+import {useReducer,useEffect} from "react";
+import ingredientsFilter from '../../custom-hooks/use-filter';
 
-import styles from './app.module.css'
+const random = (min, max) => {
+    return Math.floor(Math.random() * (max - min + 1)) + min;
+}
 
 function App() {
-    const [state, setState] = React.useState([]);
-    React.useEffect(() => {
-        fetchQ(_URL + _ING, setState);
-    }, []);
+    const { dBase, setdBase } = useGetBase();
+    const { breadArr, mainArr, souceArr } = ingredientsFilter(dBase);
+
+    const banInitialState = { ban: [], fill: [] };
+    const [banState, setBanState] = useReducer(reducer, banInitialState, undefined);
+
+    function reducer(state, action) {
+        switch (action.type) {
+        case "random"://временная генерация бургера
+            let arr = [...mainArr, ...souceArr];
+            let temp_arr = [];
+            let c = random(1,10);
+            for (var i = 0; i < c; i++) {
+                let r = random(0,arr.length-1);
+                temp_arr.push(arr[r]);
+            }
+            let randy = random(0,breadArr.length-1);
+            return { 
+                ban: breadArr.filter((item,index) => index === randy),
+                fill: temp_arr 
+            };
+        case "reset":
+            return banInitialState;
+        default:
+            throw new Error(`Wrong type of action: ${action.type}`);
+        }
+    }
+
+    useEffect(() => {
+        setBanState({type: 'random'});
+    }, [breadArr]);
 
     return (
         <main>
             <ErrorBoundary>
-                <Header/>
-                <div className={styles.app_container}>
-                    <BurgerConstructor data={state}/>
-                    <BurgerIngredients data={state}/>
-                </div>
+                <ingredientsContext.Provider value={{ dBase, setdBase }}>
+                    <constructorContext.Provider value={{ banState, setBanState}}>
+                        <Header/>
+                        <MainConstr/>
+                    </constructorContext.Provider>
+                </ingredientsContext.Provider>
             </ErrorBoundary>
         </main>
     );

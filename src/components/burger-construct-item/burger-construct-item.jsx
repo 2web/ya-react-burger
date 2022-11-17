@@ -3,7 +3,6 @@ import {Counter, CurrencyIcon} from "@ya.praktikum/react-developer-burger-ui-com
 import {ingredientItem} from "../../utils/const";
 import PropTypes from "prop-types";
 
-import React from "react";
 import Modal from "../modal/modal";
 import useModal from '../../custom-hooks/use-modal';
 import IngredientDetails from '../detail/detail';

@@ -35,5 +35,6 @@ export const _prTitle = "Белки, г"
 export const _faTitle = "Жиры, г"
 export const _carTitle = "Углеводы, г"
 
-export const _URL = "https://norma.nomoreparties.space";
-export const _ING = "/api/ingredients";
+export const _URL = "https://norma.nomoreparties.space/api/";
+export const _ING = "ingredients";
+export const _ORDER = "orders";
