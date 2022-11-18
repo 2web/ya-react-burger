@@ -1,6 +1,4 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import { ingredientDetailsPropTypes,_calTitle,_prTitle,_faTitle,_carTitle } from '../../utils/const'
+import { ingredientTypes,CAL_TITLE,PR_TITLE,FA_TITLE,CAR_TITLE } from '../../utils/const'
 
 import styles from './detail.module.css';
 
@@ -13,19 +11,19 @@ function IngredientDetails({ card }) {
       <p className='text text_type_main-medium mt-4 mb-8'>{name}</p>
       <ul className={styles.list}>
         <li className={styles.item}>
-          <p className='text text_type_main-default'>{_calTitle}</p>
+          <p className='text text_type_main-default'>{CAL_TITLE}</p>
           <span className='text text_type_digits-default'>{calories}</span>
         </li>
         <li className={styles.item}>
-          <p className='text text_type_main-default'>{_prTitle}</p>
+          <p className='text text_type_main-default'>{PR_TITLE}</p>
           <span className='text text_type_digits-default'>{proteins}</span>
         </li>
         <li className={styles.item}>
-          <p className='text text_type_main-default'>{_faTitle}</p>
+          <p className='text text_type_main-default'>{FA_TITLE}</p>
           <span className='text text_type_digits-default'>{fat}</span>
         </li>
         <li className={styles.item}>
-          <p className='text text_type_main-default'>{_carTitle}</p>
+          <p className='text text_type_main-default'>{CAR_TITLE}</p>
           <span className='text text_type_digits-default'>{carbohydrates}</span>
         </li>
       </ul>
@@ -34,7 +32,7 @@ function IngredientDetails({ card }) {
 }
 
 IngredientDetails.propTypes = {
-    card: PropTypes.shape({ingredientDetailsPropTypes}).isRequired
+    card: ingredientTypes.isRequired
 }
 
 export default IngredientDetails;

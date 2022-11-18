@@ -1,21 +1,21 @@
 import {useMemo} from "react";
-import {_BREAD, _SAUCE, _FILLING} from "../utils/const";
-import {ingredientItem} from "../utils/const";
+import {BREAD, SAUCE, FILLING} from "../utils/const";
+import {ingredientTypes} from "../utils/const";
 import PropTypes from "prop-types";
 
 const useIngredientsFilter = (cards) => {
   const breadArr = useMemo(
-    () => (cards.filter((item) => item.type === _BREAD)),
+    () => (cards.filter((item) => item.type === BREAD)),
     [cards]
   );
 
   const mainArr = useMemo(
-    () => cards.filter((item) => item.type === _FILLING),
+    () => cards.filter((item) => item.type === FILLING),
     [cards]
   );
 
   const souceArr = useMemo(
-    () => cards.filter((item) => item.type === _SAUCE),
+    () => cards.filter((item) => item.type === SAUCE),
     [cards]
   );
 
@@ -27,7 +27,7 @@ const useIngredientsFilter = (cards) => {
 }
 
 useIngredientsFilter.propTypes = {
-    cards: PropTypes.arrayOf(ingredientItem).isRequired
+    cards: PropTypes.arrayOf(ingredientTypes.isRequired).isRequired
 };
 
 export default useIngredientsFilter;

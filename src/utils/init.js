@@ -1,17 +1,17 @@
 import { useEffect, useState } from 'react';
 import { fetchGet } from './fetch';
-import { _URL, _ING } from "./const";
+import { URL, ING } from "./const";
 
 function useGetBase() {
   const [dBase, setdBase] = useState([]);
 
   useEffect(() => {
-    fetchGet(_URL + _ING, setdBase)
+    fetchGet(URL + ING, setdBase)
     .then(res => {
-        setdBase(res.data)
+      res !== undefined && setdBase(res.data)
     })
     .catch(error => {
-      console.log(error.message)
+      console.log(error)
     });
   }, [])
 

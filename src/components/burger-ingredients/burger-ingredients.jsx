@@ -7,7 +7,7 @@ import ConstructTotal from "../construct-total/construct-total";
 import PropTypes from "prop-types";
 import {useContext} from "react";
 import constructorContext from '../../context/construct-context';
-import {ingredientItem} from "../../utils/const";
+import {ingredientTypes} from "../../utils/const";
 
 const BurgerIngredients = () => {
   const { banState } = useContext(constructorContext);
@@ -22,7 +22,7 @@ const BurgerIngredients = () => {
                   key={skey}
                   type={dir}
                   isLocked={true}
-                  text={`${db[0].name} ${title}`}
+                  text={`${db[0].name} (${title})`}
                   price={db[0].price}
                   thumbnail={db[0].image}
               />
@@ -42,7 +42,7 @@ const BurgerIngredients = () => {
   }
 
   bunItem.propTypes = {
-      db: PropTypes.arrayOf(ingredientItem).isRequired,
+      db: PropTypes.arrayOf(ingredientTypes.isRequired).isRequired,
       skey: PropTypes.number.isRequired,
       dir: PropTypes.string.isRequired,
       title: PropTypes.string

@@ -1,22 +1,32 @@
 import styles from './construct-total.module.css';
 import {CurrencyIcon,Button} from "@ya.praktikum/react-developer-burger-ui-components";
-import { _URL, _ORDER } from "../../utils/const";
-import {useContext,useState} from 'react';
+import { URL, ORDER } from "../../utils/const";
+import {useContext,useState,useMemo} from 'react';
 import Modal from '../modal/modal';
 import useModal from '../../custom-hooks/use-modal';
 import OrderDetails from '../order-details/order-details';
 import constructorContext from '../../context/construct-context';
-import useCart from '../../custom-hooks/use-cart';
 import fetchPost from '../../utils/fetch';
 
 const ConstructTotal = () => {
-    const [order, setOrder] = useState({});
+    const [order, setOrder] = useState(null);
     const { banState } = useContext(constructorContext);
     const { isOpen, handleOpen, handleClose, handleCloseOverlay } = useModal();
-    const { cart, price } = useCart([...banState.ban,...banState.fill,...banState.ban]);
+
+    const { cart, price } = useMemo(() => {
+        const { ban, fill } = banState;
+        if (!ban || !fill.length || (fill.length && fill[0] === undefined) ) {
+          return { cart: [], price: 0 };
+        }      
+        const burgerData = [...ban, ...fill, ...ban];
+        return {
+            cart: burgerData.map((item) => item._id),
+            price: burgerData.reduce((sum, item) => item.price + sum, 0),
+        };
+    }, [banState]);
     
     const handleOrderClick = () => {
-        fetchPost(_URL+_ORDER, { ingredients: cart })
+        fetchPost(URL+ORDER, { ingredients: cart })
           .then((data) => {
             setOrder({
               number: data.order.number,

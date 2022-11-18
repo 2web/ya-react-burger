@@ -1,6 +1,6 @@
 import styles from './burger-construct-item.module.css'
 import {Counter, CurrencyIcon} from "@ya.praktikum/react-developer-burger-ui-components";
-import {ingredientItem} from "../../utils/const";
+import {ingredientTypes} from "../../utils/const";
 import PropTypes from "prop-types";
 
 import Modal from "../modal/modal";
@@ -36,7 +36,7 @@ const BurgerConstructItem = ({count, card}) => {
 
 BurgerConstructItem.propTypes = {
     count: PropTypes.number,
-    card: PropTypes.shape({ ingredientItem }).isRequired
+    card: ingredientTypes.isRequired
 };
 
 export default BurgerConstructItem

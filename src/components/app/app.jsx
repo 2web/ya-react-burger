@@ -6,10 +6,8 @@ import useGetBase from '../../utils/init';
 import ErrorBoundary from "../error/error";
 import {useReducer,useEffect} from "react";
 import ingredientsFilter from '../../custom-hooks/use-filter';
+import random from '../../utils/functions';
 
-const random = (min, max) => {
-    return Math.floor(Math.random() * (max - min + 1)) + min;
-}
 
 function App() {
     const { dBase, setdBase } = useGetBase();
@@ -21,14 +19,14 @@ function App() {
     function reducer(state, action) {
         switch (action.type) {
         case "random"://временная генерация бургера
-            let arr = [...mainArr, ...souceArr];
-            let temp_arr = [];
-            let c = random(1,10);
+            const arr = [...mainArr, ...souceArr];
+            const temp_arr = [];
+            const c = random(1,10);
             for (var i = 0; i < c; i++) {
                 let r = random(0,arr.length-1);
                 temp_arr.push(arr[r]);
             }
-            let randy = random(0,breadArr.length-1);
+            const randy = random(0,breadArr.length-1);
             return { 
                 ban: breadArr.filter((item,index) => index === randy),
                 fill: temp_arr 

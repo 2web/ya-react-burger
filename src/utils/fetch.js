@@ -1,4 +1,4 @@
-const checkReponse = (promise) => {
+const checkResponse = (promise) => {
     return promise.then((res) => {
       if (!res.ok) {
         let err = new Error("HTTP status code: " + res.status)
@@ -18,7 +18,7 @@ export const fetchGet = (url, callBack) => {
       Accept: "application/json: charset=utf-8",
     },
   });
-  return checkReponse(promise).then((data) => callBack(data.data))
+  return checkResponse(promise).then((data) => callBack(data.data))
 };
 
 export const fetchPost = (url, data) => {
@@ -30,6 +30,6 @@ export const fetchPost = (url, data) => {
     },
     body: JSON.stringify(data),
   });
-  return checkReponse(promise);
+  return checkResponse(promise);
 };
 export default fetchPost

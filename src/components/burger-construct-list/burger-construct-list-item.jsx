@@ -1,6 +1,6 @@
 import BurgerConstructItem from "../burger-construct-item/burger-construct-item";
 import styles from './burger-construct-list.module.css';
-import {ingredientItem} from "../../utils/const";
+import {ingredientTypes} from "../../utils/const";
 import PropTypes from "prop-types";
 
 const BurgerItem = ({ title, cards }) => {
@@ -19,7 +19,7 @@ const BurgerItem = ({ title, cards }) => {
 
 BurgerItem.propTypes = {
     title: PropTypes.string.isRequired,
-    cards: PropTypes.arrayOf(ingredientItem).isRequired
+    cards: PropTypes.arrayOf(ingredientTypes.isRequired).isRequired
 }
 
 export default BurgerItem;
