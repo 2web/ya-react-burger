@@ -1,19 +1,19 @@
-import React from "react";
+import {useState} from "react";
 import styles from './burger-construct-tabs.module.css'
 import {Tab} from "@ya.praktikum/react-developer-burger-ui-components";
-import {_BREAD, _SAUCE, _FILLING} from '../../utils/const'
+import {BREAD, SAUCE, FILLING} from '../../utils/const'
 
 const BurgerConstructTabs = () => {
-    const [current, setCurrent] = React.useState(_BREAD)
+    const [current, setCurrent] = useState(BREAD)
     return (
         <div className={`${styles.tabs} mb-10`}>
-            <Tab value={_BREAD} active={current === _BREAD} onClick={setCurrent}>
+            <Tab value={BREAD} active={current === BREAD} onClick={setCurrent}>
                 Булки
             </Tab>
-            <Tab value={_SAUCE} active={current === _SAUCE} onClick={setCurrent}>
+            <Tab value={SAUCE} active={current === SAUCE} onClick={setCurrent}>
                 Соусы
             </Tab>
-            <Tab value={_FILLING} active={current === _FILLING} onClick={setCurrent}>
+            <Tab value={FILLING} active={current === FILLING} onClick={setCurrent}>
                 Начинки
             </Tab>
         </div>
