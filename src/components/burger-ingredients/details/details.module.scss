@@ -1,0 +1,38 @@
+.modal {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 40px 40px 60px 40px;
+}
+
+.title {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 64px;
+    width: 100%;
+}
+
+.iname {
+    text-align: center;
+}
+
+.container {
+    display: flex;
+    align-items: flex-start;
+    justify-content: center;
+}
+
+.block {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    margin: 0 10px;
+}
+
+.close {
+    width: 24px;
+    height: 24px;
+    cursor: pointer;
+}

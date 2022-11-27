@@ -1,35 +1,3 @@
-const checkResponse = (promise) => {
-    return promise.then((res) => {
-      if (!res.ok) {
-        let err = new Error("HTTP status code: " + res.status)
-        err.response = res
-        err.status = res.status
-        throw err
-      }
-      return res.json();
-    });
+export const checkResponse = (res) => {
+  return res.ok ? res.json() : res.json().then((err) => Promise.reject(err));
 };
-
-export const fetchGet = (url, callBack) => {
-  const promise = fetch(url, {
-    method: "GET",
-    headers: {
-      "Content-Type": "application/json",
-      Accept: "application/json: charset=utf-8",
-    },
-  });
-  return checkResponse(promise).then((data) => callBack(data.data))
-};
-
-export const fetchPost = (url, data) => {
-  const promise = fetch(url, {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-      Accept: "application/json: charset=utf-8",
-    },
-    body: JSON.stringify(data),
-  });
-  return checkResponse(promise);
-};
-export default fetchPost

@@ -1,98 +1,255 @@
-import styles from "./burger-ingredients.module.css";
-import "./styles.css";
-import { ConstructorElement } from "@ya.praktikum/react-developer-burger-ui-components";
-import { DragIcon } from "@ya.praktikum/react-developer-burger-ui-components";
+/* eslint-disable array-callback-return */
+import { useState, useRef, useEffect, useMemo } from "react";
+import { useSelector, useDispatch } from "react-redux";
+import { Tab } from "@ya.praktikum/react-developer-burger-ui-components";
 
-import ConstructTotal from "../construct-total/construct-total";
-import PropTypes from "prop-types";
-import {useContext} from "react";
-import constructorContext from '../../context/construct-context';
-import {ingredientTypes} from "../../utils/const";
+import Bar from "simplebar-react";
+import "simplebar-react/dist/simplebar.min.css";
+
+import IngredientCard from "./card/card";
+import IngredientBlock from "./block/block";
+
+import styles from "./burger-ingredients.module.scss";
+
+import Modal from "../modal/modal";
+import "./styles.css";
+import IngredientDetails from "./details/details";
 
 const BurgerIngredients = () => {
-  const { banState } = useContext(constructorContext);
+  const { ingredients } = useSelector(
+    (store) => store.burgerIngredientsReducer
+  );
+  const dispatch = useDispatch();
 
-  const bunItem = (db, skey, dir, title) => {
-    return (
-      <div className={"pl-8"}>
-        {
-          db.length ?
-          (
-              <ConstructorElement
-                  key={skey}
-                  type={dir}
-                  isLocked={true}
-                  text={`${db[0].name} (${title})`}
-                  price={db[0].price}
-                  thumbnail={db[0].image}
-              />
-          ) :
-          (
-              <div className={`constructor-element constructor-element_pos_${dir}`}>
-                  <span className={"constructor-element__row align-center"}>
-                      <span className={"constructor-element__note"}>
-                          Выберите булку
-                      </span>
-                  </span>
-              </div>
-          )
-        }
-      </div>
-    )
-  }
+  const constructorIngredients = useSelector(
+    (store) => store.constructorReducer.constructorIngredients
+  );
+  const constructorBun = useSelector(
+    (store) => store.constructorReducer.constructorBun
+  );
 
-  bunItem.propTypes = {
-      db: PropTypes.arrayOf(ingredientTypes.isRequired).isRequired,
-      skey: PropTypes.number.isRequired,
-      dir: PropTypes.string.isRequired,
-      title: PropTypes.string
+  const returnType = ingredients.map((ingredientCard) => ingredientCard.type);
+  const uniqTypes = [...new Set(returnType)];
+
+  const [visibleModal, setVisibleModal] = useState(false);
+  const [offsetTopScrollBlock, setOffsetTopScrollBlock] = useState(0);
+  const [navChange, setNavChange] = useState({
+    clickedBlock: uniqTypes[0],
+    scrolledBlock: uniqTypes[0],
+    currentEvent: "",
+  });
+
+  useEffect(() => {
+    if (!visibleModal) {
+      dispatch({
+        type: "DEL_CURRENT_INGREDIENT"
+      });
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [visibleModal]);
+
+  useEffect(() => {
+    countersSelected();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [constructorIngredients, constructorBun]);
+
+  const scrollableNodeRef = useRef();
+  const ingredientBlockRef = useRef([]);
+
+  useMemo(() => {
+    ingredientBlockRef.current = [];
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [ingredients]);
+
+  const addToBlockRefs = (el) => {
+    if (el && !ingredientBlockRef.current.includes(el)) {
+      ingredientBlockRef.current.push(el);
+    }
+  };
+
+  const openModal = (ingredient) => {
+    dispatch({
+      type: "SET_CURRENT_INGREDIENT",
+      ingredient,
+    });
+    setVisibleModal(true);
+  };
+
+  const closeModal = () => {
+    setVisibleModal(false);
+  };
+
+  const getCurrentOffsetIngredientBlock = () => {
+    const currentScrolableRef = scrollableNodeRef.current;
+    setOffsetTopScrollBlock(currentScrolableRef.getBoundingClientRect().top);
+  };
+
+  const eventListenerFunction = () => {
+    const currentHeightIngredient =
+      scrollableNodeRef.current.children[0].offsetHeight;
+    const currentHeightScrollBlock = scrollableNodeRef.current.offsetHeight;
+    const curentScrollTop = scrollableNodeRef.current.scrollTop;
+
+    ingredientBlockRef.current.find((e, index) => {
+      if (curentScrollTop >= e.offsetTop) {
+        return setNavChange({
+          ...navChange,
+          scrolledBlock: uniqTypes[index],
+        });
+      }
+
+      if (
+        currentHeightIngredient ===
+        curentScrollTop + currentHeightScrollBlock
+      ) {
+        return setNavChange({
+          ...navChange,
+          scrolledBlock: uniqTypes[uniqTypes.length - 1],
+        });
+      }
+    });
+  };
+
+  const onScrollIngredients = () => {
+    setNavChange({
+      ...navChange,
+      currentEvent: "scrolled",
+    });
+    scrollableNodeRef.current.addEventListener("scroll", eventListenerFunction);
+  };
+
+  const changeActiveTabScrolled = () => {
+    if (navChange.scrolledBlock !== navChange.clickedBlock) {
+      setNavChange({
+        ...navChange,
+        scrolledBlock: navChange.scrolledBlock,
+      });
+    }
+  };
+
+  const changeActiveTabClicked = (e) => {
+    scrollableNodeRef.current.removeEventListener(
+      "scroll",
+      eventListenerFunction
+    );
+    setNavChange({
+      ...navChange,
+      clickedBlock: e,
+      currentEvent: "clicked",
+    });
+  };
+
+  const scrollToIngredient = () => {
+    const currentScrolableRef = scrollableNodeRef.current;
+    const currentTypeIndex = uniqTypes.indexOf(navChange.clickedBlock);
+    const currentIngredientBlock = ingredientBlockRef.current[currentTypeIndex];
+    const offsetTopCurrentIngredientBlock = currentIngredientBlock.offsetTop;
+
+    currentScrolableRef.scrollTo({
+      top: offsetTopCurrentIngredientBlock,
+      behavior: "smooth",
+    });
+  };
+
+  useEffect(() => {
+    getCurrentOffsetIngredientBlock();
+    scrollToIngredient();
+    onScrollIngredients();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [navChange.currentEvent]);
+
+  useEffect(() => {
+    changeActiveTabScrolled();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [navChange.scrolledBlock]);
+
+  const countersSelected = () => {
+    const ingredientCounters = constructorIngredients.map((ingredient) => {
+      const ingredientId = ingredient._id;
+      return ingredientId;
+    });
+
+    if (constructorBun) {
+      const ingredientId = constructorBun._id;
+      ingredientCounters.push(ingredientId);
+    }
+
+    return ingredientCounters;
   };
 
   return (
-    <section className={styles.section}>
-      <div className={styles.section_inner}>
-        {bunItem(banState.ban, 0, "top", "верх")}
-        <div className={styles.ingredients_list}>
-        {
-          banState.fill[0] && typeof banState.fill[0]['name'] !== "undefined"  ? 
-          (banState.fill.map((ingredient, index) => {
-            return (
-                <div key={index} className={styles.item}>
-                  <DragIcon type="primary" />
-                  <ConstructorElement
-                    text={ingredient.name}
-                    price={ingredient.price}
-                    thumbnail={ingredient.image}
-                  />
-                </div>
-            )
-          }))
-          :
-          (
-              <div className={"pl-8"}>
-                  <div className={"constructor-element"}>
-                      <span className={"constructor-element__row align-center"}>
-                          <span className={"constructor-element__note"}>
-                              Выберите начинку
-                          </span>
-                      </span>
-                  </div>
-              </div>
-            )
-        }
+    <>
+      <div className={`${styles.burgerIngredients} mt-5`}>
+        <div style={{ display: "flex" }} className="mb-10">
+          {uniqTypes.map((uniqType, index) => (
+            <Tab
+              value={uniqType}
+              active={
+                (navChange.clickedBlock === uniqType &&
+                  navChange.currentEvent === "clicked") ||
+                (navChange.scrolledBlock === uniqType &&
+                  navChange.currentEvent === "scrolled")
+              }
+              onClick={changeActiveTabClicked}
+              key={uniqType}
+            >
+              {uniqType}
+            </Tab>
+          ))}
         </div>
-        {bunItem(banState.ban, 1, "bottom", "низ")}
-      </div>
-      <ConstructTotal/>
-    </section>
-  );
-};
+        <Bar
+          style={{
+            maxHeight: `calc(100vh - ${offsetTopScrollBlock}px - 1px)`,
+          }}
+          autoHide={false}
+          scrollableNodeProps={{
+            ref: scrollableNodeRef,
+          }}
+        >
+          {uniqTypes.map((uniqType, index) => (
+            <IngredientBlock
+              key={uniqType}
+              uniqType={uniqType}
+              ref={addToBlockRefs}
+            >
+              {ingredients.map((ingredientCard) => {
+                let total = 0;
+                let selected = countersSelected();
 
-ConstructorElement.propTypes = {
-    type: PropTypes.string,
-    isLocked: PropTypes.bool,
-    text: PropTypes.any.isRequired,
-    price: PropTypes.number.isRequired
+                for (let i = 0; i < selected.length; i++) {
+                  const element = selected[i];
+
+                  if (ingredientCard._id === element) {
+                    total++;
+
+                    if (ingredientCard.type === "Булка") {
+                      total++;
+                    }
+                  }
+                }
+
+                if (ingredientCard.type === uniqType) {
+                  return (
+                    <IngredientCard
+                      key={ingredientCard._id}
+                      ingredientCard={ingredientCard}
+                      openModal={openModal}
+                      total={total}
+                    />
+                  );
+                }
+              })}
+            </IngredientBlock>
+          ))}
+        </Bar>
+      </div>
+      {visibleModal && (
+        <Modal setVisible={setVisibleModal} hideDefaultClose={true}>
+          <IngredientDetails closeModal={closeModal} />
+        </Modal>
+      )}
+    </>
+  );
 };
 
 export default BurgerIngredients;
