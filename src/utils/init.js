@@ -1,21 +1,20 @@
-import { checkResponse } from "../utils/fetch";
+import { request } from "../utils/fetch";
 import { ING_URL, INGREDIENT_TYPE } from "../utils/const";
 import {
   loadIngredientsRequest,
   loadIngredientsSuccess,
   loadIngredientsError,
-} from "../store/reducers/burger-ingredients-reducer";
+} from "../store/actions";
 
-export const useGetBase = () => {
+export const getIngredients = () => {
   return (dispatch) => {
     dispatch(loadIngredientsRequest(true));
-    fetch(ING_URL, {
+    request(ING_URL, {
       method: "GET",
       headers: {
         "Content-Type": "application/json;charset=utf-8",
       },
     })
-      .then((response) => checkResponse(response))
       .then((responseResult) => {
         const responseResultData = responseResult.data;
 

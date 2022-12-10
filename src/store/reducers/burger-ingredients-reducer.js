@@ -45,15 +45,3 @@ export const burgerIngredientsReducer = (
   }
 };
 
-export const loadIngredientsRequest = (payload) => ({
-  type: LOAD_INGREDIENTS_REQUEST,
-  payload,
-});
-export const loadIngredientsSuccess = (payload) => ({
-  type: LOAD_INGREDIENTS_SUCCESS,
-  payload,
-});
-export const loadIngredientsError = (payload) => ({
-  type: LOAD_INGREDIENTS_ERROR,
-  payload,
-});

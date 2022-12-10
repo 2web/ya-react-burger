@@ -12,3 +12,21 @@ export const SET_CONSTRUCTOR_PRICE = "SET_CONSTRUCTOR_PRICE";
 
 export const SET_ORDER = "SET_ORDER";
 export const DEL_CURRENT_INGREDIENT = "DEL_CURRENT_INGREDIENT";
+
+export const setOrderNumber = (payload) => ({
+  type: SET_ORDER,
+  payload,
+});
+
+export const loadIngredientsRequest = (payload) => ({
+  type: LOAD_INGREDIENTS_REQUEST,
+  payload,
+});
+export const loadIngredientsSuccess = (payload) => ({
+  type: LOAD_INGREDIENTS_SUCCESS,
+  payload,
+});
+export const loadIngredientsError = (payload) => ({
+  type: LOAD_INGREDIENTS_ERROR,
+  payload,
+});

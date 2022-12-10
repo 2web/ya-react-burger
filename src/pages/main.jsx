@@ -4,7 +4,7 @@ import { HTML5Backend } from "react-dnd-html5-backend";
 import { useSelector, useDispatch } from "react-redux";
 
 import styles from "./main.module.scss";
-import { useGetBase } from "../utils/init";
+import { getIngredients } from "../utils/init";
 
 import BurgerIngredients from "../components/burger-ingredients/burger-ingredients";
 import BurgerConstructor from "../components/burger-constructor/burger-constructor";
@@ -17,7 +17,7 @@ function MainConstr() {
 
   useEffect(() => {
     // eslint-disable-next-line react-hooks/rules-of-hooks
-    dispatch(useGetBase());
+    dispatch(getIngredients());
   }, [dispatch]);
 
   return (

@@ -1,29 +1,34 @@
 import { CloseIcon } from "@ya.praktikum/react-developer-burger-ui-components";
-import { useEffect, useRef } from "react";
+import { useEffect } from "react";
 import styles from "./modal.module.scss";
 import { createPortal } from "react-dom";
 import PropTypes from "prop-types";
-import useAnimation from "../../custom-hooks/use-animation";
+
+import ModalOverlay from "./modaloverlay";
 
 const Modal = ({ children, setVisible, hideDefaultClose }) => {
-  const modalRef = useRef();
-  const rootClasses = [styles.myModal];
   const modalRoot = document.getElementById("modal");
 
+  const closePopup = () => {
+    setVisible(false)
+  }
+  
   useEffect(() => {
-    document.onkeydown = (evt) => {
-      evt = evt || window.event;
-      evt.key === "Escape" && setVisible(false);
+    function closeByEscape(event) {
+      event = event || window.event;
+      event.key === "Escape" && closePopup();
+    }
+    document.addEventListener("keydown", closeByEscape);
+    return () => {
+      document.removeEventListener("keydown", closeByEscape);
     };
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [setVisible]);
 
-  useAnimation(modalRef, styles.active, true);
-
+  
   return createPortal(
-    <div
-      ref={modalRef}
-      className={rootClasses.join(" ")}
-      onClick={() => setVisible(false)}
+    <ModalOverlay
+      onClick={closePopup}
     >
       <div
         className={styles.myModalContent}
@@ -32,14 +37,14 @@ const Modal = ({ children, setVisible, hideDefaultClose }) => {
         {!hideDefaultClose && (
           <div
             className={`${styles.closeButton}`}
-            onClick={() => setVisible(false)}
+            onClick={closePopup}
           >
             <CloseIcon type="primary" />
           </div>
-        )}{" "}
+        )}
         {children}
       </div>
-    </div>,
+    </ModalOverlay>,
     modalRoot
   );
 };

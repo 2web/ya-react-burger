@@ -17,7 +17,3 @@ export const modalOrderReducer = (state = modalOrderState, action) => {
   }
 };
 
-export const setOrderNumber = (payload) => ({
-  type: SET_ORDER,
-  payload,
-});

@@ -15,6 +15,8 @@ import Modal from "../modal/modal";
 import "./styles.css";
 import IngredientDetails from "./details/details";
 
+import { DEL_CURRENT_INGREDIENT, SET_CURRENT_INGREDIENT } from '../../store/actions';
+
 const BurgerIngredients = () => {
   const { ingredients } = useSelector(
     (store) => store.burgerIngredientsReducer
@@ -42,7 +44,7 @@ const BurgerIngredients = () => {
   useEffect(() => {
     if (!visibleModal) {
       dispatch({
-        type: "DEL_CURRENT_INGREDIENT"
+        type: DEL_CURRENT_INGREDIENT
       });
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -69,7 +71,7 @@ const BurgerIngredients = () => {
 
   const openModal = (ingredient) => {
     dispatch({
-      type: "SET_CURRENT_INGREDIENT",
+      type: SET_CURRENT_INGREDIENT,
       ingredient,
     });
     setVisibleModal(true);
@@ -85,8 +87,7 @@ const BurgerIngredients = () => {
   };
 
   const eventListenerFunction = () => {
-    const currentHeightIngredient =
-      scrollableNodeRef.current.children[0].offsetHeight;
+    const currentHeightIngredient = scrollableNodeRef.current.children[0].offsetHeight;
     const currentHeightScrollBlock = scrollableNodeRef.current.offsetHeight;
     const curentScrollTop = scrollableNodeRef.current.scrollTop;
 
@@ -99,8 +100,7 @@ const BurgerIngredients = () => {
       }
 
       if (
-        currentHeightIngredient ===
-        curentScrollTop + currentHeightScrollBlock
+        currentHeightIngredient === curentScrollTop + currentHeightScrollBlock
       ) {
         return setNavChange({
           ...navChange,
@@ -116,6 +116,9 @@ const BurgerIngredients = () => {
       currentEvent: "scrolled",
     });
     scrollableNodeRef.current.addEventListener("scroll", eventListenerFunction);
+    return () => {
+      scrollableNodeRef.current.removeEventListener("scroll", eventListenerFunction);
+    }
   };
 
   const changeActiveTabScrolled = () => {
@@ -180,7 +183,7 @@ const BurgerIngredients = () => {
   return (
     <>
       <div className={`${styles.burgerIngredients} mt-5`}>
-        <div style={{ display: "flex" }} className="mb-10">
+        <div className={`${styles.blockIngredients} mb-10`}>
           {uniqTypes.map((uniqType, index) => (
             <Tab
               value={uniqType}

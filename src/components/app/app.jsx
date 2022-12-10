@@ -6,14 +6,14 @@ import { store } from "../../store/index";
 
 function App() {
   return (
-    <main>
+    <>
       <ErrorBoundary>
         <Provider store={store}>
           <Header />
           <MainConstr />
         </Provider>
       </ErrorBoundary>
-    </main>
+    </>
   );
 }
 

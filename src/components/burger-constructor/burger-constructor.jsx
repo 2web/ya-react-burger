@@ -18,6 +18,8 @@ import ConstrDrag from "../constructor-drag/constructor-drag";
 import { v4 as uuidv4 } from "uuid";
 import { postOrder } from "../../utils/send-order";
 
+import { SET_CONSTRUCTOR_BUN, SET_CONSTRUCTOR_INGREDIENTS, DEL_CONSTRUCTOR_INGREDIENTS, SET_CONSTRUCTOR_PRICE, UPDATE_CONSTRUCTOR_INGREDIENTS } from "../../store/actions";
+
 const BurgerConstructor = () => {
   // eslint-disable-next-line no-unused-vars
   const { ingredients } = useSelector(
@@ -45,10 +47,10 @@ const BurgerConstructor = () => {
     accept: "card",
     drop(ingredient) {
       if (ingredient["type"] === "Булка") {
-        dispatch({ type: "SET_CONSTRUCTOR_BUN", ingredient });
+        dispatch({ type: SET_CONSTRUCTOR_BUN, ingredient });
       } else {
         dispatch({
-          type: "SET_CONSTRUCTOR_INGREDIENTS",
+          type: SET_CONSTRUCTOR_INGREDIENTS,
           ingredient: {
             ...ingredient,
             dragId: uuidv4(),
@@ -77,6 +79,7 @@ const BurgerConstructor = () => {
 
   useEffect(() => {
     window.addEventListener("resize", resizeIngredientBlock, true);
+    return () => window.removeEventListener("resize", resizeIngredientBlock, true);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
@@ -87,17 +90,21 @@ const BurgerConstructor = () => {
   };
 
   const handleClose = (curentIndex) => {
-    dispatch({ type: "DEL_CONSTRUCTOR_INGREDIENTS", curentIndex });
+    dispatch({ type: DEL_CONSTRUCTOR_INGREDIENTS, curentIndex });
   };
 
   const getCurrentOffsetIngredientBlock = () => {
     const windowInnerHeight = window.innerHeight;
-    const offsetTopScrollBlock =
-      scrollableNodeRef.current.getBoundingClientRect().top;
+    const offsetTopScrollBlock = scrollableNodeRef.current
+      ? scrollableNodeRef.current.getBoundingClientRect().top
+      : 0;
     const heigthConstructorBottomBlock =
       constructorBottomBlock.current.offsetHeight;
     const maxBlockHeigth = Math.floor(
-      windowInnerHeight - offsetTopScrollBlock - heigthConstructorBottomBlock - 20
+      windowInnerHeight -
+        offsetTopScrollBlock -
+        heigthConstructorBottomBlock -
+        20
     );
     if (maxBlockHeigth < 104) {
       setHeightTopScrollBlock(104);
@@ -123,7 +130,7 @@ const BurgerConstructor = () => {
       thisTotalSumm += constructorBun.price * 2;
     }
 
-    dispatch({ type: "SET_CONSTRUCTOR_PRICE", thisTotalSumm });
+    dispatch({ type: SET_CONSTRUCTOR_PRICE, thisTotalSumm });
   };
 
   const moveCard = useCallback(
@@ -133,7 +140,7 @@ const BurgerConstructor = () => {
       newCards.splice(dragIndex, 1);
       newCards.splice(hoverIndex, 0, dragCard);
       dispatch({
-        type: "UPDATE_CONSTRUCTOR_INGREDIENTS",
+        type: UPDATE_CONSTRUCTOR_INGREDIENTS,
         ingredients: newCards,
       });
     },
@@ -142,10 +149,7 @@ const BurgerConstructor = () => {
 
   return (
     <div className={`${styles.constructor} ml-10`}>
-      <div
-        className="constructorList"
-        ref={dropTarget}
-      >
+      <div className="constructorList" ref={dropTarget}>
         <div className={`${styles.constructorBudTop}`}>
           <div className={`mb-4`}>
             {constructorBun ? (
@@ -157,7 +161,9 @@ const BurgerConstructor = () => {
                 thumbnail={constructorBun["image"]}
               />
             ) : (
-              <div className={`constructor-element ${styles.constructorElement} constructor-element_pos_top`}>
+              <div
+                className={`constructor-element ${styles.constructorElement} constructor-element_pos_top`}
+              >
                 <span
                   className={`constructor-element__text ${styles.constructorElementTextPreview}`}
                 >
@@ -216,7 +222,9 @@ const BurgerConstructor = () => {
                   thumbnail={constructorBun["image"]}
                 />
               ) : (
-                <div className={`constructor-element ${styles.constructorElement} constructor-element_pos_bottom`}>
+                <div
+                  className={`constructor-element ${styles.constructorElement} constructor-element_pos_bottom`}
+                >
                   <span
                     className={`constructor-element__text ${styles.constructorElementTextPreview}`}
                   >
