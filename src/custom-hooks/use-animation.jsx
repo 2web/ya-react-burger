@@ -1,13 +1,13 @@
-import {useEffect} from 'react';
+import { useEffect } from "react";
 
 export function useAnimation(ref, classListAdd, isOpen) {
-    useEffect(() => {
+  useEffect(() => {
     if (ref.current) {
       setTimeout(() => {
-        ref.current.classList.add(classListAdd)
-      }, 0)
+        ref.current.classList.add(classListAdd);
+      }, 0);
     }
-  }, [isOpen, ref, classListAdd])
+  }, [isOpen, ref, classListAdd]);
 }
 
 export default useAnimation;

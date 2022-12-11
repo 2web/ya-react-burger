@@ -1,24 +1,42 @@
-import { useEffect, useState } from 'react';
-import { fetchGet } from './fetch';
-import { URL, ING } from "./const";
+import { request } from "../utils/fetch";
+import { ING_URL, INGREDIENT_TYPE } from "../utils/const";
+import {
+  loadIngredientsRequest,
+  loadIngredientsSuccess,
+  loadIngredientsError,
+} from "../store/actions";
 
-function useGetBase() {
-  const [dBase, setdBase] = useState([]);
-
-  useEffect(() => {
-    fetchGet(URL + ING, setdBase)
-    .then(res => {
-      res !== undefined && setdBase(res.data)
+export const getIngredients = () => {
+  return (dispatch) => {
+    dispatch(loadIngredientsRequest(true));
+    request(ING_URL, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json;charset=utf-8",
+      },
     })
-    .catch(error => {
-      console.log(error)
-    });
-  }, [])
+      .then((responseResult) => {
+        const responseResultData = responseResult.data;
 
-  return {
-    dBase,
-    setdBase
-  }
-}
+        if (INGREDIENT_TYPE) {
+          responseResultData.map((card) => {
+            const curentType = card.type;
 
-export default useGetBase;
+            for (const key in INGREDIENT_TYPE) {
+              if (curentType === key) {
+                card.type = INGREDIENT_TYPE[key];
+              }
+            }
+            return card;
+          });
+        }
+
+        dispatch(loadIngredientsRequest(false));
+        dispatch(loadIngredientsSuccess(responseResultData));
+      })
+      .catch((error) => {
+        dispatch(loadIngredientsRequest(false));
+        dispatch(loadIngredientsError(true));
+      });
+  };
+};

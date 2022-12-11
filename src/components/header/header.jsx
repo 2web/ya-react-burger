@@ -1,8 +1,8 @@
-import styles from './header.module.css'
+import styles from './header.module.scss'
 import {Logo} from '@ya.praktikum/react-developer-burger-ui-components'
 
-import HeaderNavigation from "../header-nav/header-nav";
-import LoginBox from "../login-box/login-box";
+import HeaderNavigation from "./header-nav/header-nav";
+import LoginBox from "../login/login-box/login-box";
 
 const AppHeader = () => {
     return (

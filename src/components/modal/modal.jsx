@@ -1,35 +1,59 @@
-import React from "react";
-import ReactDOM from "react-dom";
-import ModalOverlay from "../modal-ovrl/modal-ovrl";
-import ModalHeader from "../modal-head/modal-head";
-import useAnimation from '../../custom-hooks/use-animation';
-
-import styles from "./modal.module.css";
+import { CloseIcon } from "@ya.praktikum/react-developer-burger-ui-components";
+import { useEffect } from "react";
+import styles from "./modal.module.scss";
+import { createPortal } from "react-dom";
 import PropTypes from "prop-types";
 
-const Modal = ({ header, children, isOpened, onClose, handleCloseOverlay }) => {
-    const modalRef = React.useRef();
+import ModalOverlay from "./modaloverlay";
+
+const Modal = ({ children, setVisible, hideDefaultClose }) => {
+  const modalRoot = document.getElementById("modal");
+
+  const closePopup = () => {
+    setVisible(false)
+  }
   
-    useAnimation(modalRef, styles.visible, isOpened);
+  useEffect(() => {
+    function closeByEscape(event) {
+      event = event || window.event;
+      event.key === "Escape" && closePopup();
+    }
+    document.addEventListener("keydown", closeByEscape);
+    return () => {
+      document.removeEventListener("keydown", closeByEscape);
+    };
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [setVisible]);
+
   
-    if (!isOpened) return null;
-  
-    return ReactDOM.createPortal(
-        <ModalOverlay onClose={handleCloseOverlay}>
-            <div className={styles.main} ref={modalRef}>
-                <ModalHeader onClose={onClose} header={header} />
-                {children}
-            </div>
-        </ModalOverlay>, document.getElementById('modal')
-    );
-}
+  return createPortal(
+    <ModalOverlay
+      onClick={closePopup}
+    >
+      <div
+        className={styles.myModalContent}
+        onClick={(e) => e.stopPropagation()}
+      >
+        {!hideDefaultClose && (
+          <div
+            className={`${styles.closeButton}`}
+            onClick={closePopup}
+          >
+            <CloseIcon type="primary" />
+          </div>
+        )}
+        {children}
+      </div>
+    </ModalOverlay>,
+    modalRoot
+  );
+};
 
 Modal.propTypes = {
-    header: PropTypes.string,
-    children: PropTypes.element,
-    isOpened: PropTypes.bool.isRequired,
-    onClose: PropTypes.func.isRequired,
-    handleCloseOverlay: PropTypes.func.isRequired
+  children: PropTypes.element,
+  visible: PropTypes.bool,
+  setVisible: PropTypes.func,
+  hideDefaultClose: PropTypes.bool,
 };
-  
+
 export default Modal;
