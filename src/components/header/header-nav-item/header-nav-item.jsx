@@ -1,15 +1,16 @@
 import styles from "./header-nav-item.module.scss";
 import PropTypes from "prop-types";
+import { NavLink } from "react-router-dom";
 
 const NavItem = (props) => {
   return (
     <li>
-      <a href="/" className={`${styles.item} pl-5 pr-5`}>
+      <NavLink to={props.to} exact={true} className={`${styles.item} pl-5 pr-5`}>
         {props.children}
-        <p className={`text text_type_main-default ml-2 ${!props.isActive && "text_color_inactive"}`}>
+        <p className={`text text_type_main-default ml-2`}>
           {props.value}
         </p>
-      </a>
+      </NavLink>
     </li>
   );
 };
@@ -17,6 +18,7 @@ const NavItem = (props) => {
 NavItem.propTypes = {
   isActive: PropTypes.bool,
   value: PropTypes.string.isRequired,
+  to: PropTypes.string.isRequired,
   children: PropTypes.element.isRequired
 };
 

@@ -1,15 +1,16 @@
 import styles from './login-box.module.scss'
 import {ProfileIcon} from "@ya.praktikum/react-developer-burger-ui-components";
+import { NavLink } from 'react-router-dom';
 
 const LoginBox = () => {
     return (
         <div className={styles.login}>
-            <a href='/' className={styles.login_link}>
+            <NavLink to="/profile" exact={true} className={styles.login_link} activeClassName={styles.active}>
                 <ProfileIcon type="secondary"/>
-                <p className="text text_type_main-default ml-2 text_color_inactive">
+                <p className="text text_type_main-default ml-2">
                     Личный кабинет
                 </p>
-            </a>
+            </NavLink>
         </div>
     )
 }

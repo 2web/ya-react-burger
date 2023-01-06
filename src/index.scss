@@ -12,13 +12,19 @@ code {
     monospace;
 }
 
-.constructor-element__row.align-center{
+.constructor-element__row.align-center {
   justify-content: center;
 }
 
-.constructor-element__note{
+.constructor-element__note {
   text-align: center;
   align-self: center;
   height: 45px;
   line-height: 47px;
 }
+
+.active {
+  p {
+      color: var(--text-primary-color);
+  }
+} 

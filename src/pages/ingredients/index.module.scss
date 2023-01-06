@@ -1,0 +1,48 @@
+.ingredientModal {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    max-width: 720px;
+    padding: 40px 40px 60px 40px;
+}
+
+.ingredientPage {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding-top: 120px;
+}
+
+.titleBlock {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 64px;
+    width: 100%;
+}
+
+.ingredientName {
+    text-align: center;
+}
+
+.energyValueContainer {
+    display: flex;
+    align-items: flex-start;
+    justify-content: center;
+}
+
+.energyValueBlock {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    margin: 0 10px;
+}
+
+.closeButton {
+    width: 24px;
+    height: 24px;
+    cursor: pointer;
+}

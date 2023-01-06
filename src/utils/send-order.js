@@ -1,5 +1,5 @@
-import { request } from "../utils/fetch";
-import { ORDERS_URL } from "../utils/const";
+import { request } from "./fetch";
+import { ORDERS_URL } from "./const";
 import { setOrderNumber } from "../store/actions";
 
 export const postOrder = (ingredientsID) => {

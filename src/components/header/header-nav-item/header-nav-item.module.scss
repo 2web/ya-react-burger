@@ -4,15 +4,19 @@
 
     cursor: pointer;
     text-decoration: none;
-    color: unset
-}
+    color: unset;
+    color: var(--text-inactive-color);
 
-.item:hover p {
-    color: #fff;
-    transition: all .2s linear
-}
+    p {
+        transition: all .2s linear;
+    }
 
-.item:hover svg {
-    fill: #fff;
-    transition: all .2s linear
+    &:hover p {
+        color: var(--text-primary-color);
+    }
+
+    &:hover svg {
+        fill: #fff;
+        transition: all .2s linear
+    }
 }
