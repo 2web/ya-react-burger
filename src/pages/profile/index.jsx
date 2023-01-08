@@ -6,14 +6,14 @@ import {
   ShowIcon,
   HideIcon,
 } from "@ya.praktikum/react-developer-burger-ui-components";
-import { NavLink } from "react-router-dom";
+import { NavLink, Link } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import {
-    fetchLogout,
-    fetchGetUser,
-    fetchToken,
-    fetchPatchUser,
-} from "../../utils/user-auth";
+  fetchLogout,
+  fetchGetUser,
+  fetchToken,
+  fetchPatchUser,
+} from "../../store/reducers/user-auth";
 import { useForm } from "../../custom-hooks/use-form";
 import styles from "./index.module.scss";
 
@@ -37,11 +37,13 @@ const ProfilePage = () => {
       ...profileForm,
       password: "",
     });
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [profileForm]);
 
   useEffect(() => {
     getFetchToken(fetchGetUser(profileForm.accessToken));
-  }, [profileForm.accessToken]);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   const onIconClick = (ref) => {
     const currentRefName = ref.current.name;
@@ -56,7 +58,7 @@ const ProfilePage = () => {
     }
     setTimeout(() => {
       ref.current.focus();
-    }, 100);
+    }, 0);
   };
 
   const passIconHandler = () => {
@@ -121,13 +123,13 @@ const ProfilePage = () => {
         >
           История заказов
         </NavLink>
-        <a
+        <Link
           className={`text text_type_main-medium ${styles.profileNavLink}`}
-          href="#"
           onClick={logout}
+          to="#"
         >
           Выход
-        </a>
+        </Link>
         <p className={`text text_type_main-default mt-20 ${styles.text}`}>
           В этом разделе вы можете изменить свои персональные данные
         </p>

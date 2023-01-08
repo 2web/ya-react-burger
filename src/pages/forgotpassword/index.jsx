@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import {
   Input,
   Button,
@@ -7,14 +7,10 @@ import { Link, Redirect, useLocation } from "react-router-dom";
 import { useForm } from "../../custom-hooks/use-form";
 import { PASSWORD_URL } from "../../utils/const";
 import { request } from "../../utils/fetch";
-import { useDispatch, useSelector } from "react-redux";
-import { fetchToken } from "../../utils/user-auth";
 import styles from "./index.module.scss";
 
 const ForgotPassword = () => {
   const location = useLocation();
-  const dispatch = useDispatch();
-  const token = useSelector((store) => store.userReducer.accessToken);
   const [redirect, setRedirect] = useState(false);
   const { values, handleChange } = useForm({});
 
@@ -32,16 +28,6 @@ const ForgotPassword = () => {
       }
     });
   };
-
-  useEffect(() => {
-    if (!token) {
-      dispatch(fetchToken());
-    }
-  }, []);
-
-  if (token) {
-    return <Redirect to={{ pathname: location?.state?.from || "/" }} />;
-  }
 
   if (redirect) {
     return (

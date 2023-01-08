@@ -8,7 +8,7 @@ import { PASSWORD_RESET_URL } from "../../utils/const";
 import { useForm } from "../../custom-hooks/use-form";
 import { request } from "../../utils/fetch";
 import { useDispatch, useSelector } from "react-redux";
-import { fetchToken } from "../../utils/user-auth";
+import { fetchToken } from "../../store/reducers/user-auth";
 import styles from "./index.module.scss";
 
 const ResetPassword = () => {
@@ -46,7 +46,7 @@ const ResetPassword = () => {
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  if (token || location?.state?.from.pathname !== "/forgot-password") {
+  if (location?.state?.from.pathname !== "/forgot-password") {
     return (
       <Redirect
         to={{

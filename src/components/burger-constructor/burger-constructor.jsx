@@ -1,5 +1,6 @@
 import { useState, useEffect, useRef, useCallback } from "react";
 import { useSelector, useDispatch } from "react-redux";
+import { useHistory } from "react-router-dom";
 import { useDrop } from "react-dnd";
 import {
   Button,
@@ -16,11 +17,20 @@ import OrderDetails from "../order/details/details";
 import ConstrDrag from "../constructor-drag/constructor-drag";
 
 import { v4 as uuidv4 } from "uuid";
-import { postOrder } from "../../utils/send-order";
+import { postOrder } from "../../store/reducers/send-order";
 
-import { SET_CONSTRUCTOR_BUN, SET_CONSTRUCTOR_INGREDIENTS, DEL_CONSTRUCTOR_INGREDIENTS, SET_CONSTRUCTOR_PRICE, UPDATE_CONSTRUCTOR_INGREDIENTS } from "../../store/actions";
+import {
+  SET_CONSTRUCTOR_BUN,
+  SET_CONSTRUCTOR_INGREDIENTS,
+  DEL_CONSTRUCTOR_INGREDIENTS,
+  SET_CONSTRUCTOR_PRICE,
+  UPDATE_CONSTRUCTOR_INGREDIENTS,
+} from "../../store/actions";
 
 const BurgerConstructor = () => {
+  const token = useSelector((store) => store.userReducer.accessToken);
+  const history = useHistory();
+
   // eslint-disable-next-line no-unused-vars
   const { ingredients } = useSelector(
     (store) => store.burgerIngredientsReducer
@@ -34,7 +44,7 @@ const BurgerConstructor = () => {
   const totalConstructorPrice = useSelector(
     (store) => store.constructorReducer.totalConstructorPrice
   );
-  const order = useSelector((store) => store.modalOrderReducer);
+  // const order = useSelector((store) => store.modalOrderReducer);
 
   const [visibleModal, setVisibleModal] = useState(false);
   const [heightTopScrollBlock, setHeightTopScrollBlock] = useState(0);
@@ -61,12 +71,6 @@ const BurgerConstructor = () => {
   });
 
   useEffect(() => {
-    if (order.number) {
-      setVisibleModal(true);
-    }
-  }, [order]);
-
-  useEffect(() => {
     setPrice();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [constructorBun, constructorIngredients]);
@@ -79,14 +83,20 @@ const BurgerConstructor = () => {
 
   useEffect(() => {
     window.addEventListener("resize", resizeIngredientBlock, true);
-    return () => window.removeEventListener("resize", resizeIngredientBlock, true);
+    return () =>
+      window.removeEventListener("resize", resizeIngredientBlock, true);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const sendOrder = () => {
-    let orderId = constructorIngredients.map((ingr) => ingr._id);
-    orderId = [constructorBun._id, ...orderId, constructorBun._id];
-    dispatch(postOrder(orderId));
+    if (token) {
+      let orderId = constructorIngredients.map((ingr) => ingr._id);
+      orderId = [constructorBun._id, ...orderId, constructorBun._id];
+      dispatch(postOrder(orderId));
+      setVisibleModal(true);
+    } else {
+      history.push("/login");
+    }
   };
 
   const handleClose = (curentIndex) => {

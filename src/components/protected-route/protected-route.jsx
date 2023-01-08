@@ -1,38 +1,19 @@
-import React, { useEffect, useState } from "react";
-import { useSelector, useDispatch } from "react-redux";
+import React, { useSelector } from "react-redux";
 import { Route, Redirect } from "react-router-dom";
-import { fetchToken } from "../../utils/user-auth";
+import PropTypes from "prop-types";
 
-export function ProtectedRoute({ children, ...rest }) {
-  const dispatch = useDispatch();
+export const ProtectedRoute = ({ children, onlyAuth, ...rest }) => {
   const token = useSelector((store) => store.userReducer.accessToken);
-  const [isUserLoaded, setUserLoaded] = useState(false);
-
-  const init = async () => {
-    await dispatch(fetchToken());
-    setUserLoaded(true);
-  };
-
-  useEffect(() => {
-    if (!token) {
-      init();
-    }
-  }, []);
-
-  if (isUserLoaded) {
-    return null;
-  }
-
   return (
     <Route
       {...rest}
       render={({ location }) =>
-        token ? (
+        (token && onlyAuth) || (!token && !onlyAuth) ? (
           children
         ) : (
           <Redirect
             to={{
-              pathname: "/login",
+              pathname: (onlyAuth) ? "/login" : "/",
               state: { from: location },
             }}
           />
@@ -41,3 +22,8 @@ export function ProtectedRoute({ children, ...rest }) {
     />
   );
 }
+
+ProtectedRoute.propTypes = {
+  children: PropTypes.element,
+  onlyAuth: PropTypes.bool,
+};

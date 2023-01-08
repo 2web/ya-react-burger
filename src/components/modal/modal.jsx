@@ -13,7 +13,6 @@ const Modal = ({ children, setVisible, hideDefaultClose, modalGoBack }) => {
     if (modalGoBack) {
       modalGoBack();
     }
-
     if (setVisible){
       setVisible(false);
     }

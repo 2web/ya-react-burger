@@ -3,14 +3,13 @@ import {
   Input,
   Button,
 } from "@ya.praktikum/react-developer-burger-ui-components";
-import { Link, Redirect, useLocation } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { fetchRegister, fetchToken } from "../../utils/user-auth";
+import { fetchRegister, fetchToken } from "../../store/reducers/user-auth";
 import { useForm } from "../../custom-hooks/use-form";
 import styles from "./index.module.scss";
 
 const RegisterPage = () => {
-  const location = useLocation();
   const dispatch = useDispatch();
   const token = useSelector((store) => store.userReducer.accessToken);
 
@@ -27,10 +26,6 @@ const RegisterPage = () => {
     }
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
-
-  if (token) {
-    return <Redirect to={location?.state?.from || "/"} />;
-  }
 
   return (
     <form className={`${styles.registerForm}`} onSubmit={reg}>

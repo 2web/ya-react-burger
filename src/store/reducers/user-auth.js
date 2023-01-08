@@ -1,6 +1,19 @@
-import { REGISTER_URL, LOGIN_URL, TOKEN_URL, LOGOUT_URL, GET_USER_URL } from "./const";
-import { request } from "./fetch";
-import { userRegister, userLogin, userToken, userLogout, getUser, patchUser } from "../store/actions";
+import { request } from "../../utils/fetch";
+import {
+  REGISTER_URL,
+  LOGIN_URL,
+  TOKEN_URL,
+  LOGOUT_URL,
+  GET_USER_URL,
+} from "../../utils/const";
+import {
+  userRegister,
+  userLogin,
+  userToken,
+  userLogout,
+  getUser,
+  patchUser,
+} from "../actions";
 
 export const fetchRegister = ({ email, name, password }) => {
   return (dispatch) => {
@@ -45,11 +58,10 @@ export const fetchToken = () => {
       headers: {
         "Content-Type": "application/json;charset=utf-8",
       },
-      body: JSON.stringify({ token: localStorage.getItem('refreshToken') }),
+      body: JSON.stringify({ token: localStorage.getItem("refreshToken") }),
     })
       .then((res) => {
         if (res.success) {
-          console.log(res);
           dispatch(userToken(res));
         }
       })
@@ -64,7 +76,7 @@ export const fetchLogout = () => {
       headers: {
         "Content-Type": "application/json;charset=utf-8",
       },
-      body: JSON.stringify({ token: localStorage.getItem('refreshToken') }),
+      body: JSON.stringify({ token: localStorage.getItem("refreshToken") }),
     })
       .then((res) => {
         if (res.success) {
@@ -87,6 +99,9 @@ export const fetchGetUser = (accessToken) => {
       .then((res) => {
         if (res.success) {
           dispatch(getUser(res));
+        } else {
+          dispatch(fetchToken());
+          fetchGetUser(localStorage.getItem("accessToken"));
         }
       })
       .catch((error) => {
@@ -115,4 +130,3 @@ export const fetchPatchUser = ({ accessToken, email, name, password }) => {
       .catch((error) => error);
   };
 };
-

@@ -8,7 +8,7 @@ import {
 } from "../actions";
 
 const userState = {
-  accessToken: null,
+  accessToken: localStorage.getItem('accessToken'),
   email: "",
   name: "",
 };
@@ -16,8 +16,9 @@ const userState = {
 export const userReducer = (state = userState, action) => {
   switch (action.type) {
     case USER_REGISTER: {
-      localStorage.setItem("refreshToken", action.payload.refreshToken);
-      return {
+        localStorage.setItem("refreshToken", action.payload.refreshToken);
+        localStorage.setItem("accessToken", action.payload.accessToken);
+        return {
         ...state,
         accessToken: action.payload.accessToken,
         email: action.payload.user.email,
@@ -26,6 +27,7 @@ export const userReducer = (state = userState, action) => {
     }
     case USER_LOGIN: {
       localStorage.setItem("refreshToken", action.payload.refreshToken);
+      localStorage.setItem("accessToken", action.payload.accessToken);
       return {
         ...state,
         accessToken: action.payload.accessToken,
@@ -42,6 +44,7 @@ export const userReducer = (state = userState, action) => {
     }
     case USER_LOGOUT: {
       localStorage.removeItem("refreshToken");
+      localStorage.removeItem("accessToken");
       return {
         ...state,
         accessToken: null,

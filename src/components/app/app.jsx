@@ -34,25 +34,25 @@ function App() {
         <Route path="/" exact={true}>
           <MainConstr />
         </Route>
-        <Route path="/login" exact={true}>
+        <ProtectedRoute path="/login" exact={true} onlyAuth={false}>
           <LoginPage />
-        </Route>
-        <Route path="/register" exact={true}>
+        </ProtectedRoute>
+        <ProtectedRoute path="/register" exact={true} onlyAuth={false}>
           <RegisterPage />
-        </Route>
-        <Route path="/forgot-password" exact={true}>
+        </ProtectedRoute>
+        <ProtectedRoute path="/forgot-password" exact={true} onlyAuth={false} >
           <ForgotPassword />
-        </Route>
-        <Route path="/reset-password" exact={true}>
+        </ProtectedRoute>
+        <Route path="/reset-password" exact={true} onlyAuth={false}>
           <ResetPassword />
         </Route>
         <Route path="/ingredients/:id" exact={true}>
           <IngredientPage />
         </Route>
-        <ProtectedRoute path="/profile" exact={true}>
+        <ProtectedRoute path="/profile" exact={true} onlyAuth={true}>
           <ProfilePage />
         </ProtectedRoute>
-        <ProtectedRoute path="/profile/orders" exact={true}>
+        <ProtectedRoute path="/profile/orders" exact={true} onlyAuth={true}>
           <ProfilePage />
         </ProtectedRoute>
         <Route path="*">
