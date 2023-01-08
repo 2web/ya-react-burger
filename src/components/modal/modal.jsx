@@ -6,11 +6,16 @@ import PropTypes from "prop-types";
 
 import ModalOverlay from "./modaloverlay";
 
-const Modal = ({ children, setVisible, hideDefaultClose }) => {
+const Modal = ({ children, setVisible, hideDefaultClose, modalGoBack }) => {
   const modalRoot = document.getElementById("modal");
 
   const closePopup = () => {
-    setVisible(false)
+    if (modalGoBack) {
+      modalGoBack();
+    }
+    if (setVisible){
+      setVisible(false);
+    }
   }
   
   useEffect(() => {
@@ -25,7 +30,8 @@ const Modal = ({ children, setVisible, hideDefaultClose }) => {
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [setVisible]);
 
-  
+  if (!children) return null;
+
   return createPortal(
     <ModalOverlay
       onClick={closePopup}

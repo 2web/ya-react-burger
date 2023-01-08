@@ -1,6 +1,6 @@
-import { request } from "../utils/fetch";
-import { ORDERS_URL } from "../utils/const";
-import { setOrderNumber } from "../store/actions";
+import { request } from "../../utils/fetch";
+import { ORDERS_URL } from "../../utils/const";
+import { setOrderNumber } from "../actions";
 
 export const postOrder = (ingredientsID) => {
   return (dispatch) => {

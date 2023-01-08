@@ -2,48 +2,47 @@ import { CurrencyIcon } from "@ya.praktikum/react-developer-burger-ui-components
 import styles from "./card.module.scss";
 import PropTypes from "prop-types";
 import { useDrag } from "react-dnd";
+import { useLocation, Link } from "react-router-dom";
 
 const IngredientCard = ({ ingredientCard, openModal, total }) => {
+  const location = useLocation();
   const [, dragRef] = useDrag({
     type: "card",
     item: ingredientCard,
   });
 
-  const onIngredientClick = () => {
-    openModal(ingredientCard);
-  };
-
   return (
-    <div
-      ref={dragRef}
-      className={styles.ingredientCard}
-      onClick={onIngredientClick}
+    <Link
+      className={styles.link}
+      to={{
+        pathname: `/ingredients/${ingredientCard._id}`, 
+        state: { background: location },
+      }}
     >
-      {total !== 0 && (
-        <div
-          className={`${styles.ingredientCounter} text text_type_digits-default`}
-        >
-          <span> {total} </span>
+      <div ref={dragRef} className={styles.ingredientCard}>
+        {total !== 0 && (
+          <div className={`${styles.ingredientCounter} text text_type_digits-default`}>
+            <span>{total}</span>
+          </div>
+        )}
+        <img
+          src={ingredientCard.image}
+          alt=""
+          className={`${styles.ingredientImage} mb-2`}
+        />
+        <div className={`${styles.ingredientPrice} mb-2`}>
+          <span className={`text text_type_digits-default mr-2`}>
+            {ingredientCard.price}
+          </span>
+          <CurrencyIcon type="primary" />
         </div>
-      )}
-      <img
-        src={ingredientCard.image}
-        alt=""
-        className={`${styles.ingredientImage} mb-2`}
-      />
-      <div className={`${styles.ingredientPrice} mb-2`}>
-        <span className={`text text_type_digits-default mr-2`}>
-          {" "}
-          {ingredientCard.price}
-        </span>{" "}
-        <CurrencyIcon type="primary" />
+        <div
+          className={`${styles.ingredientName} name text text_type_main-default`}
+        >
+          {ingredientCard.name}
+        </div>
       </div>
-      <div
-        className={`${styles.ingredientName} name text text_type_main-default`}
-      >
-        {ingredientCard.name}
-      </div>
-    </div>
+    </Link>
   );
 };
 

@@ -1,15 +1,17 @@
 import { useSelector } from "react-redux";
+import { useParams } from "react-router-dom";
 import PropTypes from "prop-types";
 
 import styles from "./details.module.scss";
 
-import { CloseIcon } from "@ya.praktikum/react-developer-burger-ui-components";
 import { CAL_TITLE, PR_TITLE, FA_TITLE, CAR_TITLE } from "../../../utils/const";
 
-const IngredientDetails = ({ closeModal }) => {
-  const { currentIngredient } = useSelector(
-    (store) => store.modalIngredientReducer
+const IngredientDetails = () => {
+  const { ingredients } = useSelector(
+    (store) => store.burgerIngredientsReducer
   );
+  let { id } = useParams();
+  const currentIngredient = ingredients.find(el => el._id === id);
 
   return (
     currentIngredient && (
@@ -18,9 +20,6 @@ const IngredientDetails = ({ closeModal }) => {
           <h2 className={`${styles.title} text text_type_main-large`}>
             Детали ингредиента
           </h2>
-          <div className={`${styles.close}`} onClick={() => closeModal(false)}>
-            <CloseIcon type="primary" />
-          </div>
         </div>
         <img
           src={currentIngredient.image_large}
