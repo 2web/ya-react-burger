@@ -3,16 +3,16 @@ import { ThunkAction } from 'redux-thunk';
 import { store } from '../store/';
 import { TBurgerIngredientsActions } from '../store/actions/burgerIngredientsActions';
 import { TUserActions } from '../store/actions/userActions';
+import { TwActions } from '../store/middleware/socket-actions';
 
 export type RootState = ReturnType<typeof store.getState>;
 
 export type TApplicationActions = 
   | TUserActions
-  | TBurgerIngredientsActions;
+  | TBurgerIngredientsActions
+  | TwActions;
 
-export type AppThunk<TReturn = void> = ActionCreator<
-  ThunkAction<TReturn, Action, RootState, TApplicationActions>
->;
+export type AppThunk<TReturn = void> = ActionCreator<ThunkAction<TReturn, Action, RootState, TApplicationActions>>;
 
 export type AppDispatch = typeof store.dispatch;
 
@@ -35,6 +35,7 @@ export interface IDrgagItem extends IIngredientItem {
   dragId?: string;
   index?: number;
   id?: number;
+  count?: number;
 }
 
 export type Titem = {
@@ -70,4 +71,14 @@ export type TConstructorDraggableIngredient = {
   item: IDrgagItem,
   handleClose: Function,
   moveCard: Function,
+}
+
+export type TOrders = {
+  createdAt: string
+  updatedAt: string
+  ingredients: string[]
+  name: string
+  number: number
+  status: string
+  _id: string
 }

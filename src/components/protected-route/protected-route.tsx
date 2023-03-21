@@ -1,10 +1,29 @@
-import React from "react-redux";
-import { useAppSelector } from "../../custom-hooks/hooks";
+import React, { useEffect, useState, FC } from "react";
+import { useAppDispatch, useAppSelector } from "../../custom-hooks/hooks";
 import { Route, Redirect } from "react-router-dom";
+import { fetchToken } from "../../store/reducers/user-auth";
 import PropTypes from "prop-types";
 
-export const ProtectedRoute = ({ children, onlyAuth, ...rest }) => {
+export const ProtectedRoute: FC<any> = ({ children, onlyAuth, ...rest }) => {
+  const dispatch = useAppDispatch();
   const token = useAppSelector((store) => store.userReducer.accessToken);
+  const [isUserLoaded, setUserLoaded] = useState<boolean>(false);
+
+  const init = async () => {
+    await dispatch(fetchToken());
+    setUserLoaded(true);
+  };
+
+  useEffect(() => {
+    if (!token) {
+      init();
+    }
+  }, []);
+
+  if (isUserLoaded) {
+    return null;
+  }
+
   return (
     <Route
       {...rest}

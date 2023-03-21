@@ -20,7 +20,7 @@ type TStaringObj = {
   [name: string]: string;
 }
 
-export const fetchRegister: AppThunk = ({ email, name, password }: TStaringObj) => {
+export const fetchRegister: AppThunk | any = ({ email, name, password }: TStaringObj) => {
   return (dispatch: AppDispatch) => {
     request(REGISTER_URL, {
       method: "POST",
@@ -38,7 +38,7 @@ export const fetchRegister: AppThunk = ({ email, name, password }: TStaringObj) 
   };
 };
 
-export const fetchLogin: AppThunk = ({ email, password }: TStaringObj) => {
+export const fetchLogin: AppThunk | any = ({ email, password }: TStaringObj) => {
   return (dispatch: AppDispatch) => {
     request(LOGIN_URL, {
       method: "POST",
@@ -56,7 +56,7 @@ export const fetchLogin: AppThunk = ({ email, password }: TStaringObj) => {
   };
 };
 
-export const fetchToken: AppThunk = () => {
+export const fetchToken: AppThunk | any = () => {
   return (dispatch: AppDispatch) => {
     request(TOKEN_URL, {
       method: "POST",
@@ -67,6 +67,7 @@ export const fetchToken: AppThunk = () => {
     })
       .then((res: any) => {
         if (res.success) {
+          console.log(res);
           dispatch(userToken(res));
         }
       })
@@ -74,7 +75,7 @@ export const fetchToken: AppThunk = () => {
   };
 };
 
-export const fetchLogout: AppThunk = () => {
+export const fetchLogout: AppThunk | any = () => {
   return (dispatch: AppDispatch) => {
     request(LOGOUT_URL, {
       method: "POST",
@@ -92,8 +93,8 @@ export const fetchLogout: AppThunk = () => {
   };
 };
 
-export const fetchGetUser: AppThunk = (accessToken: string) => {
-  return (dispatch) => {
+export const fetchGetUser: AppThunk | any = (accessToken: string) => {
+  return (dispatch: AppDispatch) => {
     request(GET_USER_URL, {
       method: "GET",
       headers: {
@@ -105,8 +106,8 @@ export const fetchGetUser: AppThunk = (accessToken: string) => {
         if (res.success) {
           dispatch(getUser(res));
         } else {
-          dispatch(fetchToken());
-          fetchGetUser(localStorage.getItem("accessToken"));
+          // dispatch(fetchToken());
+          // fetchGetUser(localStorage.getItem("accessToken"));
         }
       })
       .catch((error) => {
@@ -117,7 +118,7 @@ export const fetchGetUser: AppThunk = (accessToken: string) => {
   };
 };
 
-export const fetchPatchUser: AppThunk = ({ accessToken, email, name, password }) => {
+export const fetchPatchUser: AppThunk | any = ({ accessToken, email, name, password }: TStaringObj) => {
   return (dispatch: AppDispatch) => {
     request(GET_USER_URL, {
       method: "PATCH",

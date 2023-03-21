@@ -12,7 +12,7 @@ const HeaderNavigation = () => {
         <NavItem isActive={true} value={"Конструктор"} to={"/"}>
           <BurgerIcon type={"primary"} />
         </NavItem>
-        <NavItem isActive={false} value={"Лента заказов"} to={"/lenta"}>
+        <NavItem isActive={false} value={"Лента заказов"} to={"/feed"}>
           <ListIcon type={"secondary"} />
         </NavItem>
       </ul>

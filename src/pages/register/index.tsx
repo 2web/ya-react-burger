@@ -15,7 +15,7 @@ const RegisterPage = () => {
 
   const { values, handleChange } = useForm({});
 
-  const reg = (e) => {
+  const reg = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     dispatch(fetchRegister(values));
   };

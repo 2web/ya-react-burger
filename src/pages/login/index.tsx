@@ -3,19 +3,20 @@ import {
   Input,
   Button,
 } from "@ya.praktikum/react-developer-burger-ui-components";
-import { Link } from "react-router-dom";
+import { Link, Redirect, useLocation } from "react-router-dom";
 import { useAppSelector, useAppDispatch } from "../../custom-hooks/hooks";
 import { fetchLogin, fetchToken } from "../../store/reducers/user-auth";
 import { useForm } from "../../custom-hooks/use-form";
 import styles from "./index.module.scss";
 
 const LoginPage = () => {
+  const location = useLocation<any>();
   const dispatch: Function = useAppDispatch();
   const token = useAppSelector((store) => store.userReducer.accessToken);
 
   const { values, handleChange } = useForm({});
 
-  const login = (e: { preventDefault: () => void; }) => {
+  const login = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     dispatch(fetchLogin(values));
   };
@@ -24,8 +25,11 @@ const LoginPage = () => {
     if (!token) {
       dispatch(fetchToken());
     }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
+  if (token) {
+    return <Redirect to={location?.state?.from || "/"} />;
+  }
 
   return (
     <form className={`${styles.loginForm}`} onSubmit={login}>

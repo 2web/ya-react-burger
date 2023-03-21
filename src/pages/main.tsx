@@ -1,10 +1,8 @@
-import { useEffect } from "react";
 import { DndProvider } from "react-dnd";
 import { HTML5Backend } from "react-dnd-html5-backend";
-import { useAppSelector, useAppDispatch } from "../custom-hooks/hooks";
+import { useAppSelector } from "../custom-hooks/hooks";
 
 import styles from "./main.module.scss";
-import { getIngredients } from "../utils/init";
 
 import BurgerIngredients from "../components/burger-ingredients/burger-ingredients";
 import BurgerConstructor from "../components/burger-constructor/burger-constructor";
@@ -13,12 +11,6 @@ function MainConstr() {
   const { isLoading, ingredients, isError } = useAppSelector(
     (store) => store.burgerIngredientsReducer
   );
-  const dispatch: Function = useAppDispatch();
-
-  useEffect(() => {
-    // eslint-disable-next-line react-hooks/rules-of-hooks
-    dispatch(getIngredients());
-  }, [dispatch]);
 
   return (
     <>

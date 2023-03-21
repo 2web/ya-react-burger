@@ -8,6 +8,7 @@ import {
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import { NavLink, Link } from "react-router-dom";
 import { useAppSelector, useAppDispatch } from "../../custom-hooks/hooks";
+import { TApplicationActions } from "../../utils/types";
 import {
   fetchLogout,
   fetchGetUser,
@@ -28,9 +29,9 @@ const ProfilePage = () => {
     showPassIcon: false,
     showPass: false,
   });
-  const nameRef = useRef(null);
-  const emailRef = useRef(null);
-  const passRef = useRef(null);
+  const nameRef = useRef<HTMLInputElement>(null);
+  const emailRef = useRef<HTMLInputElement>(null);
+  const passRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
     setValues({
@@ -42,10 +43,10 @@ const ProfilePage = () => {
 
   useEffect(() => {
     getFetchToken(fetchGetUser(profileForm.accessToken));
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [profileForm.accessToken]);
 
-  const onIconClick = (ref) => {
+  const onIconClick = (ref:React.RefObject<HTMLInputElement>) => {
+    if (!ref.current) return;
     const currentRefName = ref.current.name;
     if (currentRefName === "password") {
       setDisabledInput({
@@ -57,7 +58,7 @@ const ProfilePage = () => {
       setDisabledInput({ ...disabledInput, [currentRefName]: false });
     }
     setTimeout(() => {
-      ref.current.focus();
+      ref.current?.focus();
     }, 0);
   };
 
@@ -65,12 +66,12 @@ const ProfilePage = () => {
     setDisabledInput({ ...disabledInput, showPass: !disabledInput.showPass });
   };
 
-  const logout = (e) => {
+  const logout = (e: React.MouseEvent<HTMLAnchorElement>) => {
     e.preventDefault();
     dispatch(fetchLogout());
   };
 
-  const patch = (e) => {
+  const patch = (e: React.SyntheticEvent<Element, Event>) => {
     e.preventDefault();
     getFetchToken(fetchPatchUser(values));
     setDisabledInput({
@@ -82,7 +83,7 @@ const ProfilePage = () => {
     });
   };
 
-  const getFetchToken = (callback) => {
+  const getFetchToken = (callback: TApplicationActions) => {
     if (profileForm.accessToken) {
       dispatch(callback);
     } else {
@@ -149,7 +150,7 @@ const ProfilePage = () => {
             ref={nameRef}
           />
           <div
-            onClick={(e) => onIconClick(nameRef)}
+            onClick={(e: React.MouseEvent<HTMLDivElement>) => onIconClick(nameRef)}
             className={`${styles.inputIcon}`}
           >
             <EditIcon type="primary" />
@@ -169,7 +170,7 @@ const ProfilePage = () => {
             ref={emailRef}
           />
           <div
-            onClick={(e) => onIconClick(emailRef)}
+            onClick={(e: React.MouseEvent<HTMLDivElement>) => onIconClick(emailRef)}
             className={`${styles.inputIcon}`}
           >
             <EditIcon type="primary" />

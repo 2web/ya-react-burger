@@ -1,0 +1,109 @@
+.orderBlock {
+    background: #1C1C21;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.04), 0px 0px 2px rgba(0, 0, 0, 0.06), 0px 0px 1px rgba(0, 0, 0, 0.04);
+    border-radius: 40px;
+    width: 100%;
+}
+
+.link {
+    color: white;
+    text-decoration: none;
+}
+
+.orderTop,
+.orderBottom {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.orderIngredients {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: flex-start;
+}
+
+.orderIngredient {
+    width: 64px;
+    height: 64px;
+    border-radius: 50%;
+    background: #131316;
+    border: 2px solid #801AB2;
+    margin-left: -16px;
+    position: relative;
+    overflow: hidden;
+
+    &:first-child {
+        margin-left: 0;
+    }
+
+    &:nth-child(1) {
+        z-index: 10;
+    }
+
+    &:nth-child(2) {
+        z-index: 9;
+    }
+
+    &:nth-child(3) {
+        z-index: 8;
+    }
+
+    &:nth-child(4) {
+        z-index: 7;
+    }
+
+    &:nth-child(5) {
+        z-index: 6;
+    }
+
+    &:nth-child(6) {
+        z-index: 5;
+    }
+
+    &:nth-child(7) {
+        z-index: 4;
+    }
+
+    &:nth-child(8) {
+        z-index: 3;
+    }
+
+    &:nth-child(9) {
+        z-index: 2;
+    }
+
+    &:nth-child(10) {
+        z-index: 1;
+    }
+
+    img {
+        position: absolute;
+        left: 50%;
+        top: 50%;
+        transform: translate(-50%, -50%);
+        height: 80%;
+        object-fit: contain;
+    }
+
+    span {
+        display: block;
+        width: 100%;
+        height: 100%;
+        background: rgba(28, 28, 33, 0.6);
+        z-index: 2;
+        position: relative;
+        text-align: center;
+        line-height: 60px;
+    }
+}
+
+.orderStatusSuccess {
+    color: #00CCCC;
+}
+
+.orderPrice {
+    display: flex;
+    align-items: center;
+}

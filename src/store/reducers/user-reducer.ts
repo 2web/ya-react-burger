@@ -24,7 +24,6 @@ export const userReducer = (state = userState, action: TUserActions) => {
   switch (action.type) {
     case USER_REGISTER: {
         localStorage.setItem("refreshToken", action.payload.refreshToken);
-        localStorage.setItem("accessToken", action.payload.accessToken);
         return {
         ...state,
         accessToken: action.payload.accessToken,
@@ -51,7 +50,6 @@ export const userReducer = (state = userState, action: TUserActions) => {
     }
     case USER_LOGOUT: {
       localStorage.removeItem("refreshToken");
-      localStorage.removeItem("accessToken");
       return {
         ...state,
         accessToken: null,
