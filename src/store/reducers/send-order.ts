@@ -5,7 +5,6 @@ import { sendOrder, sendOrderSuccess, setOrderNumber } from "../actions/burgerIn
 
 export const postOrder: AppThunk = (ingredientsID: string[], token: string | null) => {
   return (dispatch: AppDispatch) => {
-    debugger;
     dispatch(sendOrder());
     request(ORDERS_URL, {
       method: "POST",
