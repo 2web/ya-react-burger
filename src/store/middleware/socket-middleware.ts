@@ -46,7 +46,7 @@ export const socketMiddleware = (wsUrl: string, wsActions: typeof wActions): Mid
         };
 
         if (type === wConnectionClose) {
-          socket.close(1000, "job complete");
+          socket.close(4000, "job complete");
         }
 
         if (type === wSendMessage) {

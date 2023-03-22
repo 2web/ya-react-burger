@@ -67,7 +67,7 @@ export const App: FC = () => {
         <ProtectedRoute path="/profile" exact={true} onlyAuth={true}>
           <ProfilePage />
         </ProtectedRoute>
-        <ProtectedRoute path="/profile/orders" exact={true}>
+        <ProtectedRoute path="/profile/orders" exact={true} onlyAuth={true}>
           <OrdersPage />
         </ProtectedRoute>
         <ProtectedRoute path="/profile/orders/:id" exact={true}>
@@ -85,12 +85,12 @@ export const App: FC = () => {
       </Switch>
       {background && (
         <Switch>
-        <Route path="/ingredients/:id">
-          <Modal modalGoBack={modalGoBack}>
-            <IngredientDetails />
-          </Modal>
-        </Route>
-        <ProtectedRoute path="/profile/orders/:id">
+          <Route path="/ingredients/:id">
+            <Modal modalGoBack={modalGoBack}>
+              <IngredientDetails />
+            </Modal>
+          </Route>
+          <ProtectedRoute path="/profile/orders/:id" onlyAuth={true}>
             <Modal modalGoBack={modalGoBack}>
               <OrderDetail />
             </Modal>

@@ -1,17 +1,28 @@
 import { IDrgagItem, IIngredientItem } from "../../utils/types";
 
-export const LOAD_INGREDIENTS_REQUEST: "LOAD_INGREDIENTS_REQUEST" = "LOAD_INGREDIENTS_REQUEST";
-export const LOAD_INGREDIENTS_SUCCESS: "LOAD_INGREDIENTS_SUCCESS" = "LOAD_INGREDIENTS_SUCCESS";
-export const LOAD_INGREDIENTS_ERROR: "LOAD_INGREDIENTS_ERROR" = "LOAD_INGREDIENTS_ERROR";
+export const LOAD_INGREDIENTS_REQUEST: "LOAD_INGREDIENTS_REQUEST" =
+  "LOAD_INGREDIENTS_REQUEST";
+export const LOAD_INGREDIENTS_SUCCESS: "LOAD_INGREDIENTS_SUCCESS" =
+  "LOAD_INGREDIENTS_SUCCESS";
+export const LOAD_INGREDIENTS_ERROR: "LOAD_INGREDIENTS_ERROR" =
+  "LOAD_INGREDIENTS_ERROR";
 export const UPDATE_INGREDIENTS: "UPDATE_INGREDIENTS" = "UPDATE_INGREDIENTS";
-export const SET_CONSTRUCTOR_INGREDIENTS: "SET_CONSTRUCTOR_INGREDIENTS" = "SET_CONSTRUCTOR_INGREDIENTS";
-export const UPDATE_CONSTRUCTOR_INGREDIENTS: "UPDATE_CONSTRUCTOR_INGREDIENTS" = "UPDATE_CONSTRUCTOR_INGREDIENTS";
-export const DEL_CONSTRUCTOR_INGREDIENTS: "DEL_CONSTRUCTOR_INGREDIENTS" = "DEL_CONSTRUCTOR_INGREDIENTS";
+export const SET_CONSTRUCTOR_INGREDIENTS: "SET_CONSTRUCTOR_INGREDIENTS" =
+  "SET_CONSTRUCTOR_INGREDIENTS";
+export const UPDATE_CONSTRUCTOR_INGREDIENTS: "UPDATE_CONSTRUCTOR_INGREDIENTS" =
+  "UPDATE_CONSTRUCTOR_INGREDIENTS";
+export const DEL_CONSTRUCTOR_INGREDIENTS: "DEL_CONSTRUCTOR_INGREDIENTS" =
+  "DEL_CONSTRUCTOR_INGREDIENTS";
 export const SET_CONSTRUCTOR_BUN: "SET_CONSTRUCTOR_BUN" = "SET_CONSTRUCTOR_BUN";
-export const SET_CONSTRUCTOR_PRICE: "SET_CONSTRUCTOR_PRICE" = "SET_CONSTRUCTOR_PRICE";
+export const SET_CONSTRUCTOR_PRICE: "SET_CONSTRUCTOR_PRICE" =
+  "SET_CONSTRUCTOR_PRICE";
 export const SET_ORDER_NUMBER: "SET_ORDER_NUMBER" = "SET_ORDER_NUMBER";
-export const SET_CURRENT_INGREDIENT: "SET_CURRENT_INGREDIENT" = "SET_CURRENT_INGREDIENT";
-export const DEL_CURRENT_INGREDIENT: "DEL_CURRENT_INGREDIENT" = "DEL_CURRENT_INGREDIENT";
+export const SEND_ORDER_SUCCESS: "SEND_ORDER_SUCCESS" = "SEND_ORDER_SUCCESS";
+export const SEND_ORDER: "SEND_ORDER" = "SEND_ORDER";
+export const SET_CURRENT_INGREDIENT: "SET_CURRENT_INGREDIENT" =
+  "SET_CURRENT_INGREDIENT";
+export const DEL_CURRENT_INGREDIENT: "DEL_CURRENT_INGREDIENT" =
+  "DEL_CURRENT_INGREDIENT";
 
 export interface ILoadIngredientsRequest {
   readonly type: typeof LOAD_INGREDIENTS_REQUEST;
@@ -53,6 +64,12 @@ export interface ISetOrderNumber {
   readonly type: typeof SET_ORDER_NUMBER;
   readonly number: number | null;
 }
+export interface ISendOrderSuccess {
+  readonly type: typeof SEND_ORDER_SUCCESS;
+}
+export interface ISendOrder {
+  readonly type: typeof SEND_ORDER;
+}
 export interface ISetCurrentIngredients {
   readonly type: typeof SET_CURRENT_INGREDIENT;
   readonly currentIngredient: IDrgagItem;
@@ -73,6 +90,8 @@ export type TBurgerIngredientsActions =
   | ISetConstructorBun
   | ISetConstructorPrice
   | ISetOrderNumber
+  | ISendOrderSuccess
+  | ISendOrder
   | IDelCurrentIngredient;
 
 export const loadIngredientsRequest = (
@@ -123,6 +142,10 @@ export const setConstructorPrice = (
 export const setOrderNumber = (number: number | null): ISetOrderNumber => ({
   type: SET_ORDER_NUMBER,
   number,
+});
+export const sendOrder = (): ISendOrder => ({ type: SEND_ORDER });
+export const sendOrderSuccess = (): ISendOrderSuccess => ({
+  type: SEND_ORDER_SUCCESS,
 });
 
 export const setCurrentIngredients = (

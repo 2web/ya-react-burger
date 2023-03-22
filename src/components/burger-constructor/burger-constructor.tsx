@@ -30,22 +30,15 @@ import {
 import { postOrder } from "../../store/reducers/send-order";
 
 const BurgerConstructor = () => {
+  const order = useAppSelector((store) => store.modalOrderReducer);
   const token = useAppSelector((store) => store.userReducer.accessToken);
+  const isLoadOrder = useAppSelector(store => store.modalOrderReducer.isLoad)
   const history = useHistory();
 
-  // eslint-disable-next-line no-unused-vars
-  // const { ingredients } = useAppSelector(
-  //   (store) => store.burgerIngredientsReducer
-  // );
-  const constructorIngredients = useAppSelector(
-    (store) => store.constructorReducer.constructorIngredients
-  );
-  const constructorBun = useAppSelector(
-    (store) => store.constructorReducer.constructorBun
-  );
-  const totalConstructorPrice = useAppSelector(
-    (store) => store.constructorReducer.totalConstructorPrice
-  );
+
+  const constructorIngredients = useAppSelector((store) => store.constructorReducer.constructorIngredients);
+  const constructorBun = useAppSelector((store) => store.constructorReducer.constructorBun);
+  const totalConstructorPrice = useAppSelector((store) => store.constructorReducer.totalConstructorPrice);
 
   const [visibleModal, setVisibleModal] = useState<boolean>(false);
   const [heightTopScrollBlock, setHeightTopScrollBlock] = useState<number>(0);
@@ -73,6 +66,12 @@ const BurgerConstructor = () => {
   });
 
   useEffect(() => {
+    if (order.number) {
+      setVisibleModal(true);
+    }
+  }, [order]);
+
+  useEffect(() => {
     setPrice();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [constructorBun, constructorIngredients]);
@@ -94,8 +93,7 @@ const BurgerConstructor = () => {
     if (token) {
       let orderId = constructorIngredients.map((ingr: IDrgagItem) => ingr._id);
       orderId = [constructorBun!._id, ...orderId, constructorBun!._id];
-      dispatch(postOrder(orderId));
-      setVisibleModal(true);
+      dispatch(postOrder(orderId,token));
     } else {
       history.push("/login");
     }
@@ -186,15 +184,11 @@ const BurgerConstructor = () => {
           </div>
         </div>
         <div
-          className={`${
-            !constructorIngredients.length && styles.constructorMain
-          }`}
+          className={`${!constructorIngredients.length && styles.constructorMain}`}
         >
           {constructorIngredients.length ? (
             <Bar
-              style={{
-                maxHeight: `${heightTopScrollBlock}px`,
-              }}
+              style={{maxHeight: `${heightTopScrollBlock}px`,}}
               autoHide={false}
               scrollableNodeProps={{ ref: scrollableNodeRef }}
             >
@@ -255,13 +249,13 @@ const BurgerConstructor = () => {
               <CurrencyIcon type="primary" />
             </div>
             <Button
-              disabled={!constructorBun}
+              disabled={!constructorBun || isLoadOrder}
               type="primary"
               size="large"
               onClick={sendOrder}
               htmlType="button"
             >
-              Оформить заказ
+              {isLoadOrder ? 'Обрабатываем заказ' : 'Оформить заказ'}
             </Button>
           </div>
         </div>

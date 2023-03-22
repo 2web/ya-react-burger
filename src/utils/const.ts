@@ -26,6 +26,7 @@ export const FA_TITLE = "Жиры,г";
 export const CAR_TITLE = "Углеводы,г";
 
 const URL = "https://norma.nomoreparties.space/api/";
+
 export const ING_URL = `${URL}ingredients`;
 export const ORDERS_URL = `${URL}orders`;
 export const REGISTER_URL = `${URL}auth/register`;

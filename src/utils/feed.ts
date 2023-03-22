@@ -3,12 +3,10 @@ import { IDrgagItem, TOrders } from "./types";
 export const getDate = (currentFeed: any, setTimeString: Function) => {
   const orderDate = new Date(currentFeed.createdAt);
   const currentDate = new Date();
-  const timeZone = orderDate.getTimezoneOffset() / 60;
-  const days =
-    Math.round(currentDate.getTime() / (24 * 60 * 60000)) -
-    Math.round(orderDate.getTime() / (24 * 60 * 60000));
+  // const timeZone = orderDate.getTimezoneOffset() / 60;
+  const days = Math.round(currentDate.getTime() / (24 * 60 * 60000)) - Math.round(orderDate.getTime() / (24 * 60 * 60000));
   let dateString = "";
-  const getTimeString = `${orderDate.getHours()}:${orderDate.getMinutes()} i-GMT ${timeZone}`;
+  const getTimeString = `${orderDate.getHours()}:${orderDate.getMinutes()}`;//i-GMT ${timeZone}
   if (days === 0) {
     dateString = `Сегодня, ${getTimeString}`;
   } else if (days === 1) {

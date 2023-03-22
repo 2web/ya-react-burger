@@ -52,12 +52,16 @@ export const fetchLogin: AppThunk | any = ({ email, password }: TStaringObj) => 
           dispatch(userLogin(res));
         }
       })
-      .catch((error) => error);
+      .catch((error) => {
+        // debugger;
+        console.log(error);
+      });
   };
 };
 
 export const fetchToken: AppThunk | any = () => {
   return (dispatch: AppDispatch) => {
+    if(!localStorage.getItem("refreshToken")) return;
     request(TOKEN_URL, {
       method: "POST",
       headers: {
@@ -66,12 +70,16 @@ export const fetchToken: AppThunk | any = () => {
       body: JSON.stringify({ token: localStorage.getItem("refreshToken") }),
     })
       .then((res: any) => {
+        debugger;
         if (res.success) {
-          console.log(res);
+          // console.log(res);
           dispatch(userToken(res));
         }
       })
-      .catch((error) => error);
+      .catch((error) => {
+        // debugger;
+        console.log(error);
+      });
   };
 };
 
@@ -95,26 +103,26 @@ export const fetchLogout: AppThunk | any = () => {
 
 export const fetchGetUser: AppThunk | any = (accessToken: string) => {
   return (dispatch: AppDispatch) => {
-    request(GET_USER_URL, {
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json;charset=utf-8",
-        Authorization: accessToken,
-      },
-    })
-      .then((res: any) => {
-        if (res.success) {
-          dispatch(getUser(res));
-        } else {
-          // dispatch(fetchToken());
-          // fetchGetUser(localStorage.getItem("accessToken"));
-        }
+    if(accessToken !== null) {
+      request(GET_USER_URL, {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json;charset=utf-8",
+          Authorization: `${accessToken}`,
+        },
       })
-      .catch((error) => {
-        if (!error.success) {
-          dispatch(fetchToken());
-        }
-      });
+        .then((res: any) => {
+          if (res.success) {
+            dispatch(getUser(res));
+          }
+        })
+        .catch((error) => {
+          // debugger;
+          if (!error.success) {
+            // dispatch(fetchToken());
+          }
+        });
+    }
   };
 };
 

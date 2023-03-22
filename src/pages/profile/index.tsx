@@ -19,7 +19,7 @@ import { useForm } from "../../custom-hooks/use-form";
 import styles from "./index.module.scss";
 
 const ProfilePage = () => {
-  const dispatch: Function = useAppDispatch();
+  const dispatch = useAppDispatch();
   const profileForm = useAppSelector((store) => store.userReducer);
   const { values, handleChange, setValues } = useForm({});
   const [disabledInput, setDisabledInput] = useState({
@@ -59,7 +59,7 @@ const ProfilePage = () => {
     }
     setTimeout(() => {
       ref.current?.focus();
-    }, 0);
+    }, 10);
   };
 
   const passIconHandler = () => {

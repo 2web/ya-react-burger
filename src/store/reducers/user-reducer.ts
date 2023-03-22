@@ -49,6 +49,7 @@ export const userReducer = (state = userState, action: TUserActions) => {
       };
     }
     case USER_LOGOUT: {
+      localStorage.removeItem("accessToken");
       localStorage.removeItem("refreshToken");
       return {
         ...state,

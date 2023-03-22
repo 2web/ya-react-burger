@@ -7,11 +7,11 @@ import PropTypes from "prop-types";
 export const ProtectedRoute: FC<any> = ({ children, onlyAuth, ...rest }) => {
   const dispatch = useAppDispatch();
   const token = useAppSelector((store) => store.userReducer.accessToken);
-  const [isUserLoaded, setUserLoaded] = useState<boolean>(false);
+  // const [isUserLoaded, setUserLoaded] = useState<boolean>(false);
 
   const init = async () => {
     await dispatch(fetchToken());
-    setUserLoaded(true);
+    // setUserLoaded(true);
   };
 
   useEffect(() => {
@@ -20,10 +20,10 @@ export const ProtectedRoute: FC<any> = ({ children, onlyAuth, ...rest }) => {
     }
   }, []);
 
-  if (isUserLoaded) {
-    return null;
-  }
-
+  // if (isUserLoaded) {
+  //   return null;
+  // }
+//token && onlyAuth) || (!token && !onlyAuth
   return (
     <Route
       {...rest}

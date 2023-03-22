@@ -62,7 +62,8 @@ const FeedPage = () => {
         }),
       })
     }
-  }, [feed, message])
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [message])
 
   return (
     <div className={`${styles.container}`}>
