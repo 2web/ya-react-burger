@@ -85,7 +85,6 @@ const OrdersPage = () => {
         </NavLink>
         <a
           className={`text text_type_main-medium ${styles.profileNavLink}`}
-          href="#"
           onClick={logout}
         >
           Выход
@@ -103,7 +102,7 @@ const OrdersPage = () => {
         scrollableNodeProps={{ ref: scrollableNodeRef }}
       >
         <div className={`${styles.orderContainer}`}>
-          {message &&
+          {message && message.orders && message.orders.length > 0 &&
             message.orders.map((el: IDrgagItem) => (
               <OrderBlock key={el._id} order={el} />
             ))}

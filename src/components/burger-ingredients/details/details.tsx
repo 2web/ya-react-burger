@@ -1,16 +1,17 @@
 import { useParams } from "react-router-dom";
-import React from "react";
-import PropTypes from "prop-types";
+import { FC } from "react";
 import { useAppSelector } from "../../../custom-hooks/hooks";
 
 import styles from "./details.module.scss";
 
 import { CAL_TITLE, PR_TITLE, FA_TITLE, CAR_TITLE } from "../../../utils/const";
 
-const IngredientDetails = () => {
-  const { ingredients } = useAppSelector(
-    (store) => store.burgerIngredientsReducer
-  );
+type TIngredientDetails = {
+  closeModal?: Function;
+}
+
+const IngredientDetails: FC<TIngredientDetails> = () => {
+  const { ingredients } = useAppSelector((store) => store.burgerIngredientsReducer);
   let { id }: { id: string } = useParams();
   if (!ingredients) {
     return <div>Loading...</div>;
@@ -62,10 +63,6 @@ const IngredientDetails = () => {
       </div>
       : null
   );
-};
-
-IngredientDetails.propTypes = {
-  closeModal: PropTypes.func,
 };
 
 export default IngredientDetails;

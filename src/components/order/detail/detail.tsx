@@ -17,7 +17,7 @@ export type TuseParams = {
   id: string
 }
 
-const OrderDetail: any = () => {
+const OrderDetail = () => {
   let { id } = useParams<TuseParams>()
   const currentFeed = useAppSelector((store) =>
     store.wReducer.messages?.orders.find(
@@ -27,6 +27,7 @@ const OrderDetail: any = () => {
   const ingredients = useAppSelector(
     (store) => store.burgerIngredientsReducer.ingredients,
   )
+  
   const [sortedIngredients, setSortedIngredients] = useState<IDrgagItem[]>([])
   const [totalPrice, setTotalPrice] = useState<number>()
   const [timeString, setTimeString] = useState<string>()
@@ -38,6 +39,7 @@ const OrderDetail: any = () => {
       getDate(currentFeed, setTimeString)
       getFeedStatus(currentFeed, setFeedStatus)
     }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [currentFeed])
 
   useEffect(() => {
@@ -87,7 +89,7 @@ const OrderDetail: any = () => {
             })}
           </div>
         </Bar>
-        <div className={`${styles.orderBottom} mt-4`}>
+        <div className={`${styles.orderBottom} mt-4 pr-4`}>
           <p className={`${styles.orderDate} text text_type_main-default text_color_inactive`}>
             {timeString}
           </p>
@@ -98,9 +100,9 @@ const OrderDetail: any = () => {
         </div>
       </div>
     )
-  } else {
-    return ''
-  }
+  }else{
+    return null;
+  } 
 }
 
 export default OrderDetail

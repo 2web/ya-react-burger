@@ -19,17 +19,11 @@ import { useAppDispatch, useAppSelector } from "../../custom-hooks/hooks";
 import { DEL_CURRENT_INGREDIENT, SET_CURRENT_INGREDIENT } from '../../store/actions/burgerIngredientsActions';
 
 const BurgerIngredients = () => {
-  const { ingredients } = useAppSelector(
-    (store) => store.burgerIngredientsReducer
-  );
+  const { ingredients } = useAppSelector((store) => store.burgerIngredientsReducer);
   const dispatch = useAppDispatch();
 
-  const constructorIngredients = useAppSelector(
-    (store) => store.constructorReducer.constructorIngredients
-  );
-  const constructorBun = useAppSelector(
-    (store) => store.constructorReducer.constructorBun
-  );
+  const constructorIngredients = useAppSelector((store) => store.constructorReducer.constructorIngredients);
+  const constructorBun = useAppSelector((store) => store.constructorReducer.constructorBun);
 
   const returnType = ingredients.map((ingredientCard) => ingredientCard.type);
   const uniqTypes: string[] = [...new Set(returnType)];

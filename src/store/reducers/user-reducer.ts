@@ -42,6 +42,7 @@ export const userReducer = (state = userState, action: TUserActions) => {
       };
     }
     case USER_TOKEN: {
+      localStorage.setItem("accessToken", action.payload.accessToken);
       localStorage.setItem("refreshToken", action.payload.refreshToken);
       return {
         ...state,

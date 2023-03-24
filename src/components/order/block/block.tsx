@@ -30,6 +30,7 @@ const OrderBlock: FC<TOrderBlock> = ({ feed, order }) => {
     sortIngredients(order, ingredients, setSortedIngredients)
     getDate(order, setTimeString)
     getFeedStatus(order, setFeedStatus)
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [order])
 
   useEffect(() => {

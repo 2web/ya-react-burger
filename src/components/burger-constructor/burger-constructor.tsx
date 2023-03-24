@@ -66,8 +66,10 @@ const BurgerConstructor = () => {
   });
 
   useEffect(() => {
-    if (order.number) {
+    if (order.isLoad) {
       setVisibleModal(true);
+    }else{
+      // setVisibleModal(false)
     }
   }, [order]);
 
@@ -231,9 +233,7 @@ const BurgerConstructor = () => {
                 <div
                   className={`constructor-element ${styles.constructorElement} constructor-element_pos_bottom`}
                 >
-                  <span
-                    className={`constructor-element__text ${styles.constructorElementTextPreview}`}
-                  >
+                  <span className={`constructor-element__text ${styles.constructorElementTextPreview}`}>
                     {"Перенесите сюда булку"}
                   </span>
                 </div>

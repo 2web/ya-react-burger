@@ -70,7 +70,7 @@ export const App: FC = () => {
         <ProtectedRoute path="/profile/orders" exact={true} onlyAuth={true}>
           <OrdersPage />
         </ProtectedRoute>
-        <ProtectedRoute path="/profile/orders/:id" exact={true}>
+        <ProtectedRoute path="/profile/orders/:id" exact={true} onlyAuth={true}>
           <OrderPage />
         </ProtectedRoute>
         <Route path="/feed" exact={true}>

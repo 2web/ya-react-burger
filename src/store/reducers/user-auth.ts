@@ -61,7 +61,7 @@ export const fetchLogin: AppThunk | any = ({ email, password }: TStaringObj) => 
 
 export const fetchToken: AppThunk | any = () => {
   return (dispatch: AppDispatch) => {
-    if(!localStorage.getItem("refreshToken")) return;
+    if(!localStorage.getItem("refreshToken")) return false;
     request(TOKEN_URL, {
       method: "POST",
       headers: {
@@ -70,15 +70,12 @@ export const fetchToken: AppThunk | any = () => {
       body: JSON.stringify({ token: localStorage.getItem("refreshToken") }),
     })
       .then((res: any) => {
-        debugger;
         if (res.success) {
-          // console.log(res);
           dispatch(userToken(res));
         }
       })
       .catch((error) => {
-        // debugger;
-        console.log(error);
+        // console.log(error);
       });
   };
 };
@@ -117,9 +114,8 @@ export const fetchGetUser: AppThunk | any = (accessToken: string) => {
           }
         })
         .catch((error) => {
-          // debugger;
           if (!error.success) {
-            // dispatch(fetchToken());
+            dispatch(fetchToken());
           }
         });
     }
