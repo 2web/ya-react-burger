@@ -12,7 +12,7 @@ const OrderDetails = () => {
       <p className={`${styles.id} text text_type_digits-large`}>
         {number ? number : ''}
       </p>
-      <h1 className="text text_type_main-medium mb-15">{number ? 'идентификатор заказа' : 'ожидайте идентификатор заказа'}</h1>
+      <h1 className="text text_type_main-medium mb-15">{number ? 'идентификатор заказа' : 'Ожидайте...'}</h1>
       <img className={styles.image} src={done} alt={"Готово"} />
       <p className="text text_type_main-default mb-2">
         Ваш Заказ начали готовить
