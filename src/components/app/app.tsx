@@ -2,6 +2,18 @@ import { FC } from 'react';
 import { useAppDispatch } from "../../custom-hooks/hooks";
 import { useEffect } from "react";
 import { getIngredients } from "../../utils/init";
+import { 
+  ROUTE_HOME,
+  ROUTE_LOGIN,
+  ROUTE_REGISTER,
+  ROUTE_FORGOT_PASS,
+  ROUTE_RESET_PASS,
+  ROUTE_ING_ID,
+  ROUTE_PROFILE,
+  ROUTE_PROFILE_ORDERS,
+  ROUTE_PROFILE_ORDERS_ID,
+  ROUTE_FEED,
+  ROUTE_FEED_ID } from "../../utils/const";
 import {
   Route,
   Switch,
@@ -25,7 +37,7 @@ import IngredientPage from "../../pages/ingredients";
 import OrderDetail from "../order/detail/detail";
 import Modal from "../modal/modal";
 import IngredientDetails from "../burger-ingredients/details/details";
-import { ILocationState } from "../../models/models";
+import { ILocationState } from "../../models/models.ts";
 
 export const App: FC = () => {
   const dispatch: Function = useAppDispatch();
@@ -46,37 +58,37 @@ export const App: FC = () => {
     <div>
       <Header />
       <Switch location={background || location}>
-        <Route path="/" exact={true}>
+        <Route path={ROUTE_HOME} exact={true}>
           <MainConstr />
         </Route>
-        <ProtectedRoute path="/login" exact={true} onlyAuth={false}>
+        <ProtectedRoute path={ROUTE_LOGIN} exact={true} onlyAuth={false}>
           <LoginPage />
         </ProtectedRoute>
-        <ProtectedRoute path="/register" exact={true} onlyAuth={false}>
+        <ProtectedRoute path={ROUTE_REGISTER} exact={true} onlyAuth={false}>
           <RegisterPage />
         </ProtectedRoute>
-        <ProtectedRoute path="/forgot-password" exact={true} onlyAuth={false} >
+        <ProtectedRoute path={ROUTE_FORGOT_PASS} exact={true} onlyAuth={false} >
           <ForgotPassword />
         </ProtectedRoute>
-        <ProtectedRoute path="/reset-password" exact={true} onlyAuth={false}>
+        <ProtectedRoute path={ROUTE_RESET_PASS} exact={true} onlyAuth={false}>
           <ResetPassword />
         </ProtectedRoute>
-        <Route path="/ingredients/:id" exact={true}>
+        <Route path={ROUTE_ING_ID} exact={true}>
           <IngredientPage />
         </Route>
-        <ProtectedRoute path="/profile" exact={true} onlyAuth={true}>
+        <ProtectedRoute path={ROUTE_PROFILE} exact={true} onlyAuth={true}>
           <ProfilePage />
         </ProtectedRoute>
-        <ProtectedRoute path="/profile/orders" exact={true} onlyAuth={true}>
+        <ProtectedRoute path={ROUTE_PROFILE_ORDERS} exact={true} onlyAuth={true}>
           <OrdersPage />
         </ProtectedRoute>
-        <ProtectedRoute path="/profile/orders/:id" exact={true} onlyAuth={true}>
+        <ProtectedRoute path={ROUTE_PROFILE_ORDERS_ID} exact={true} onlyAuth={true}>
           <OrderPage />
         </ProtectedRoute>
-        <Route path="/feed" exact={true}>
+        <Route path={ROUTE_FEED} exact={true}>
           <FeedPage />
         </Route>
-        <Route path="/feed/:id" exact={true}>
+        <Route path={ROUTE_FEED_ID} exact={true}>
           <OrderPage />
         </Route>
         <Route path="*">
@@ -85,17 +97,17 @@ export const App: FC = () => {
       </Switch>
       {background && (
         <Switch>
-          <Route path="/ingredients/:id">
+          <Route path={ROUTE_ING_ID}>
             <Modal modalGoBack={modalGoBack}>
               <IngredientDetails />
             </Modal>
           </Route>
-          <ProtectedRoute path="/profile/orders/:id" onlyAuth={true}>
+          <ProtectedRoute path={ROUTE_PROFILE_ORDERS_ID} onlyAuth={true}>
             <Modal modalGoBack={modalGoBack}>
               <OrderDetail />
             </Modal>
           </ProtectedRoute>
-          <Route path="/feed/:id">
+          <Route path={ROUTE_FEED_ID}>
             <Modal modalGoBack={modalGoBack}>
               <OrderDetail />
             </Modal>

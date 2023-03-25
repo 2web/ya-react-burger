@@ -2,7 +2,7 @@ import { request } from "../../utils/fetch";
 import { ORDERS_URL } from "../../utils/const";
 import { AppDispatch, AppThunk } from "../../utils/types";
 import { sendOrder, sendOrderSuccess, setOrderNumber } from "../actions/burgerIngredientsActions";
-import { fetchToken } from "../reducers/user-auth";
+import { fetchToken } from "./user-auth";
 
 export const postOrder: AppThunk = (ingredientsID: string[], token: string | null) => {
   return (dispatch: AppDispatch) => {
@@ -22,6 +22,12 @@ export const postOrder: AppThunk = (ingredientsID: string[], token: string | nul
           dispatch(sendOrderSuccess());
         }
       })
-      .catch((error) => error)
+      .catch((error) => {
+        if (error.message === "jwt expired"){
+          dispatch(fetchToken());
+          
+          console.log(error.message);
+        }
+      })
   };
 };
