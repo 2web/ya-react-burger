@@ -1,6 +1,7 @@
 import type { Middleware, MiddlewareAPI } from "redux";
 import type { AppDispatch, RootState } from "../../utils/types";
-import type { wActions} from "./socket-actions"
+import type { wActions} from "./socket-actions";
+import { fetchToken } from '../../store/reducers/user-auth';
 
 export const socketMiddleware = (wsUrl: string, wsActions: typeof wActions): Middleware => {
   return ((store: MiddlewareAPI<AppDispatch, RootState>) => {
@@ -36,23 +37,32 @@ export const socketMiddleware = (wsUrl: string, wsActions: typeof wActions): Mid
         socket.onmessage = (event) => {
           const { data } = event;
           const parsedData = JSON.parse(data);
-          const { success, ...restParsedData } = parsedData;
-
-          dispatch({ type: wGetMessage, payload: restParsedData });
+          if (!parsedData?.success) {
+            if (parsedData?.message === 'Invalid or missing token') {
+              dispatch(fetchToken())
+            }
+            dispatch({ type: wConnectionError, error: parsedData?.message });
+          } else {
+            const { success, ...restParsedData } = parsedData;
+            dispatch({ type: wGetMessage, payload: restParsedData });
+          }
         };
 
         socket.onclose = (event) => {
           dispatch({ type: wConnectionClosed, payload: event });
         };
 
-        if (type === wConnectionClose) {
-          socket.close(4000, "job complete");
-        }
-
         if (type === wSendMessage) {
           const message = payload;
           message["token"] = accessToken;
           socket.send(JSON.stringify(message));
+        }
+
+        if (type === wConnectionClose) {
+          if (socket.readyState === 1) {
+            socket.close();
+            socket = null;
+          } 
         }
       }
 

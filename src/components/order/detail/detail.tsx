@@ -1,52 +1,51 @@
-import React, { useEffect, useState } from 'react'
-import styles from './detail.module.scss'
+import React, { useEffect, useState, useMemo } from 'react';
+import styles from './detail.module.scss';
 
-import { CurrencyIcon } from '@ya.praktikum/react-developer-burger-ui-components'
-import Bar from 'simplebar-react'
-import { useParams } from 'react-router-dom'
-import { useAppSelector } from '../../../custom-hooks/hooks'
+import { CurrencyIcon } from '@ya.praktikum/react-developer-burger-ui-components';
+import Bar from 'simplebar-react';
+import { useParams } from 'react-router-dom';
+import { useAppSelector } from '../../../custom-hooks/hooks';
 import {
   getDate,
   getFeedStatus,
   getTotalPrice,
   sortIngredients,
-} from '../../../utils/feed'
-import { IDrgagItem, TOrders } from '../../../utils/types'
+} from '../../../utils/feed';
+import { IDrgagItem, TOrders } from '../../../utils/types';
+import { getBurgerIngredientsReducerIng, getwsReducerMessages } from "../../../utils/functions";
 
 export type TuseParams = {
-  id: string
+  id: string;
 }
 
 const OrderDetail = () => {
-  let { id } = useParams<TuseParams>()
-  const currentFeed = useAppSelector((store) =>
-    store.wReducer.messages?.orders.find(
-      (el: TOrders) => el.number === parseInt(id),
-    ),
-  )
-  const ingredients = useAppSelector(
-    (store) => store.burgerIngredientsReducer.ingredients,
-  )
+  let { id } = useParams<TuseParams>();
+  const messages = useAppSelector(getwsReducerMessages);
+  const currentFeed = useMemo(() => {
+    return messages?.orders.find((el: TOrders) => el.number === parseInt(id));
+  },[messages,id]);
   
-  const [sortedIngredients, setSortedIngredients] = useState<IDrgagItem[]>([])
-  const [totalPrice, setTotalPrice] = useState<number>()
-  const [timeString, setTimeString] = useState<string>()
-  const [feedStatus, setFeedStatus] = useState<string>()
+  const ingredients = useAppSelector(getBurgerIngredientsReducerIng);
+  
+  const [sortedIngredients, setSortedIngredients] = useState<IDrgagItem[]>([]);
+  const [totalPrice, setTotalPrice] = useState<number>();
+  const [timeString, setTimeString] = useState<string>();
+  const [feedStatus, setFeedStatus] = useState<string>();
 
   useEffect(() => {
     if (ingredients && currentFeed) {
-      sortIngredients(currentFeed, ingredients, setSortedIngredients)
-      getDate(currentFeed, setTimeString)
-      getFeedStatus(currentFeed, setFeedStatus)
+      sortIngredients(currentFeed, ingredients, setSortedIngredients);
+      getDate(currentFeed, setTimeString);
+      getFeedStatus(currentFeed, setFeedStatus);
     }
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [currentFeed])
+  }, [currentFeed]);
 
   useEffect(() => {
     if (sortedIngredients.length) {
-      getTotalPrice(sortedIngredients, setTotalPrice)
+      getTotalPrice(sortedIngredients, setTotalPrice);
     }
-  }, [sortedIngredients])
+  }, [sortedIngredients]);
 
   if (currentFeed) {
     return (

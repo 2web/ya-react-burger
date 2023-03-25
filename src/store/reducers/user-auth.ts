@@ -5,6 +5,7 @@ import {
   TOKEN_URL,
   LOGOUT_URL,
   GET_USER_URL,
+  REFRESH_TOKEN
 } from "../../utils/const";
 import {
   userRegister,
@@ -34,7 +35,9 @@ export const fetchRegister: AppThunk | any = ({ email, name, password }: TStarin
           dispatch(userRegister(res));
         }
       })
-      .catch((error) => error);
+      .catch((error) => {
+        console.log(error);
+      });
   };
 };
 
@@ -53,7 +56,6 @@ export const fetchLogin: AppThunk | any = ({ email, password }: TStaringObj) => 
         }
       })
       .catch((error) => {
-        // debugger;
         console.log(error);
       });
   };
@@ -61,13 +63,13 @@ export const fetchLogin: AppThunk | any = ({ email, password }: TStaringObj) => 
 
 export const fetchToken: AppThunk | any = () => {
   return (dispatch: AppDispatch) => {
-    if(!localStorage.getItem("refreshToken")) return false;
+    if(!localStorage.getItem(REFRESH_TOKEN)) return false;
     request(TOKEN_URL, {
       method: "POST",
       headers: {
         "Content-Type": "application/json;charset=utf-8",
       },
-      body: JSON.stringify({ token: localStorage.getItem("refreshToken") }),
+      body: JSON.stringify({ token: localStorage.getItem(REFRESH_TOKEN) }),
     })
       .then((res: any) => {
         if (res.success) {
@@ -75,7 +77,9 @@ export const fetchToken: AppThunk | any = () => {
         }
       })
       .catch((error) => {
-        // console.log(error);
+        if (error.message === "jwt expired"){
+          console.log("BAg!");
+        }
       });
   };
 };
@@ -87,7 +91,7 @@ export const fetchLogout: AppThunk | any = () => {
       headers: {
         "Content-Type": "application/json;charset=utf-8",
       },
-      body: JSON.stringify({ token: localStorage.getItem("refreshToken") }),
+      body: JSON.stringify({ token: localStorage.getItem(REFRESH_TOKEN) }),
     })
       .then((res: any) => {
         if (res.success) {
@@ -137,6 +141,10 @@ export const fetchPatchUser: AppThunk | any = ({ accessToken, email, name, passw
           dispatch(patchUser(res));
         }
       })
-      .catch((error) => error);
+      .catch((error) => {
+        if (!error.success) {
+          dispatch(fetchToken());
+        }
+      });
   };
 };

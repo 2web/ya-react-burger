@@ -12,14 +12,16 @@ import {
   sortIngredients,
 } from '../../../utils/feed'
 import { IDrgagItem } from '../../../utils/types'
+import { ROUTE_FEED,ROUTE_PROFILE_ORDERS } from "../../../utils/const";
+import { getBurgerIngredientsReducerIng } from "../../../utils/functions";
 
 type TOrderBlock = {
-  feed?: boolean
-  order?: any
+  feed?: boolean;
+  order?: any;
 }
 
 const OrderBlock: FC<TOrderBlock> = ({ feed, order }) => {
-  const ingredients = useAppSelector((store) => store.burgerIngredientsReducer.ingredients)
+  const ingredients = useAppSelector(getBurgerIngredientsReducerIng)
   const location = useLocation()
   const [sortedIngredients, setSortedIngredients] = useState<IDrgagItem[]>([])
   const [totalPrice, setTotalPrice] = useState<number>()
@@ -44,8 +46,8 @@ const OrderBlock: FC<TOrderBlock> = ({ feed, order }) => {
       className={styles.link}
       to={{
         pathname: feed
-          ? `/feed/${order.number}`
-          : `/profile/orders/${order.number}`,
+          ? `${ROUTE_FEED}/${order.number}`
+          : `${ROUTE_PROFILE_ORDERS}/${order.number}`,
         state: { background: location },
       }}
     >

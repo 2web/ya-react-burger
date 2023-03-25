@@ -1,20 +1,4 @@
-import PropTypes from "prop-types";
 import { TingredientType } from "./types";
-
-export const ingredientTypes = PropTypes.shape({
-  _id: PropTypes.string.isRequired,
-  name: PropTypes.string.isRequired,
-  type: PropTypes.string.isRequired,
-  proteins: PropTypes.number.isRequired,
-  fat: PropTypes.number.isRequired,
-  carbohydrates: PropTypes.number.isRequired,
-  calories: PropTypes.number.isRequired,
-  price: PropTypes.number.isRequired,
-  image: PropTypes.string.isRequired,
-  image_mobile: PropTypes.string.isRequired,
-  image_large: PropTypes.string.isRequired,
-  __v: PropTypes.number,
-});
 
 export const BREAD = "bun";
 export const SAUCE = "sauce";
@@ -38,3 +22,19 @@ export const PASSWORD_URL = `${URL}password-reset`;
 export const PASSWORD_RESET_URL = `${PASSWORD_URL}/reset`;
 
 export const INGREDIENT_TYPE: TingredientType = { bun: "Булка", main: "Начинки", sauce: "Соус" };
+
+export const ROUTE_HOME = "/";
+export const ROUTE_LOGIN = "/login";
+export const ROUTE_REGISTER = "/register";
+export const ROUTE_FORGOT_PASS = "/forgot-password";
+export const ROUTE_RESET_PASS = "/reset-password";
+export const ROUTE_ING_ID = "/ingredients/:id";
+export const ROUTE_PROFILE = "/profile";
+export const ROUTE_PROFILE_ORDERS = "/profile/orders";
+export const ROUTE_PROFILE_ORDERS_ID = "/profile/orders/:id";
+export const ROUTE_FEED = "/feed";
+export const ROUTE_FEED_ID = "/feed/:id";
+
+
+export const ACCESS_TOKEN = "accessToken";
+export const REFRESH_TOKEN = "refreshToken";

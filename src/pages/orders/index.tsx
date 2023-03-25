@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react'
-import { NavLink } from 'react-router-dom'
+import { NavLink, Link } from 'react-router-dom'
 import styles from './index.module.scss'
 
 import {
@@ -17,12 +17,14 @@ import {
   CONNECTION_START,
 } from '../../store/middleware/socket-actions-types'
 import { IDrgagItem, TApplicationActions } from '../../utils/types'
+import { ROUTE_PROFILE_ORDERS,ROUTE_PROFILE } from '../../utils/const'
+import { getToken,getwsReducerMessages,getUser } from '../../utils/functions'
 
 const OrdersPage = () => {
   const dispatch = useAppDispatch()
-  const accessToken = useAppSelector((store) => store.userReducer.accessToken)
-  const message = useAppSelector((store) => store.wReducer.messages)
-  const profileForm = useAppSelector((store) => store.userReducer)
+  const accessToken = useAppSelector(getToken)
+  const message = useAppSelector(getwsReducerMessages)
+  const profileForm = useAppSelector(getUser)
   const [offsetTopScrollBlock, setOffsetTopScrollBlock] = useState<number>(0)
   const scrollableNodeRef = useRef<HTMLDivElement | any>(null)
 
@@ -37,6 +39,7 @@ const OrdersPage = () => {
 
   useEffect(() => {
     getFetchToken(fetchGetUser(profileForm.accessToken))
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [profileForm.accessToken])
 
   const logout = (e: React.MouseEvent<HTMLAnchorElement>) => {
@@ -62,6 +65,7 @@ const OrdersPage = () => {
     return () => {
       dispatch({ type: CONNECTION_CLOSE })
     }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
   return (
@@ -69,7 +73,7 @@ const OrdersPage = () => {
       <div className={`${styles.profileNav} mr-15`}>
         <NavLink
           className={`text text_type_main-medium ${styles.profileNavLink}`}
-          to="/profile"
+          to={ROUTE_PROFILE}
           activeClassName={styles.activeNavLink}
           exact={true}
         >
@@ -77,18 +81,19 @@ const OrdersPage = () => {
         </NavLink>
         <NavLink
           className={`text text_type_main-medium ${styles.profileNavLink}`}
-          to="/profile/orders"
+          to={ROUTE_PROFILE_ORDERS}
           activeClassName={styles.activeNavLink}
           exact={true}
         >
           История заказов
         </NavLink>
-        <a
+        <Link
           className={`text text_type_main-medium ${styles.profileNavLink}`}
           onClick={logout}
+          to="#"
         >
           Выход
-        </a>
+        </Link>
         <p className={`text text_type_main-default mt-20 ${styles.text}`}>
           В этом разделе вы можете просмотреть свою историю заказов
         </p>
@@ -106,6 +111,11 @@ const OrdersPage = () => {
             message.orders.map((el: IDrgagItem) => (
               <OrderBlock key={el._id} order={el} />
             ))}
+          {!message && (
+            <h1 className={`text text_type_main-medium ${styles.error}`}>
+              Идет загрузка истории заказов, пожалуйста, подождите...
+            </h1>
+          )}
         </div>
       </Bar>
     </div>

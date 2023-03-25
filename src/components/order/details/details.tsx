@@ -1,18 +1,20 @@
 import React from "react";
 import { useAppSelector } from "../../../custom-hooks/hooks";
+import { getOrderNumber } from "../../../utils/functions";
 
 import done from "../../../images/done.svg";
 import styles from "./details.module.scss";
 
 const OrderDetails = () => {
-  const number = useAppSelector((store) => store.modalOrderReducer.number);
-
+  const number: any = useAppSelector(getOrderNumber);
   return (
     <div className={styles.container}>
       <p className={`${styles.id} text text_type_digits-large`}>
-        {number ? number : ''}
+        {number && number !== null ? `${number}` : '\u00a0'}
       </p>
-      <h1 className="text text_type_main-medium mb-15">{number ? 'идентификатор заказа' : 'Ожидайте...'}</h1>
+      <h1 className="text text_type_main-medium mb-15">
+        {number && number !== null ? 'идентификатор заказа' : 'Ожидайте...'}
+      </h1>
       <img className={styles.image} src={done} alt={"Готово"} />
       <p className="text text_type_main-default mb-2">
         Ваш Заказ начали готовить

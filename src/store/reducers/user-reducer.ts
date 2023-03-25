@@ -7,6 +7,7 @@ import {
   PATCH_USER,
   TUserActions,
 } from "../actions/userActions";
+import { ACCESS_TOKEN, REFRESH_TOKEN } from "../../utils/const";
 
 type TUserState = {
   accessToken: string | null,
@@ -15,7 +16,7 @@ type TUserState = {
 };
 
 const userState: TUserState = {
-  accessToken: localStorage.getItem('accessToken'),
+  accessToken: localStorage.getItem(ACCESS_TOKEN),
   email: "",
   name: "",
 };
@@ -23,7 +24,7 @@ const userState: TUserState = {
 export const userReducer = (state = userState, action: TUserActions) => {
   switch (action.type) {
     case USER_REGISTER: {
-        localStorage.setItem("refreshToken", action.payload.refreshToken);
+        localStorage.setItem(REFRESH_TOKEN, action.payload.refreshToken);
         return {
         ...state,
         accessToken: action.payload.accessToken,
@@ -32,8 +33,8 @@ export const userReducer = (state = userState, action: TUserActions) => {
       };
     }
     case USER_LOGIN: {
-      localStorage.setItem("refreshToken", action.payload.refreshToken);
-      localStorage.setItem("accessToken", action.payload.accessToken);
+      localStorage.setItem(REFRESH_TOKEN, action.payload.refreshToken);
+      localStorage.setItem(ACCESS_TOKEN, action.payload.accessToken);
       return {
         ...state,
         accessToken: action.payload.accessToken,
@@ -42,16 +43,16 @@ export const userReducer = (state = userState, action: TUserActions) => {
       };
     }
     case USER_TOKEN: {
-      localStorage.setItem("accessToken", action.payload.accessToken);
-      localStorage.setItem("refreshToken", action.payload.refreshToken);
+      localStorage.setItem(ACCESS_TOKEN, action.payload.accessToken);
+      localStorage.setItem(REFRESH_TOKEN, action.payload.refreshToken);
       return {
         ...state,
         accessToken: action.payload.accessToken,
       };
     }
     case USER_LOGOUT: {
-      localStorage.removeItem("accessToken");
-      localStorage.removeItem("refreshToken");
+      localStorage.removeItem(ACCESS_TOKEN);
+      localStorage.removeItem(REFRESH_TOKEN);
       return {
         ...state,
         accessToken: null,

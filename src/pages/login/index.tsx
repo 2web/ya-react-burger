@@ -7,12 +7,14 @@ import { Link, Redirect, useLocation } from "react-router-dom";
 import { useAppSelector, useAppDispatch } from "../../custom-hooks/hooks";
 import { fetchLogin, fetchToken } from "../../store/reducers/user-auth";
 import { useForm } from "../../custom-hooks/use-form";
+import { getToken } from "../../utils/functions";
+import { ROUTE_HOME } from "../../utils/const";
 import styles from "./index.module.scss";
 
 const LoginPage = () => {
   const location = useLocation<any>();
   const dispatch: Function = useAppDispatch();
-  const token = useAppSelector((store) => store.userReducer.accessToken);
+  const token = useAppSelector(getToken);
 
   const { values, handleChange } = useForm({});
 
@@ -25,10 +27,11 @@ const LoginPage = () => {
     if (!token) {
       dispatch(fetchToken());
     }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   if (token) {
-    return <Redirect to={location?.state?.from || "/"} />;
+    return <Redirect to={location?.state?.from || ROUTE_HOME} />;
   }
 
   return (

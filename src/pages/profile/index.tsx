@@ -9,6 +9,8 @@ import {
 import { NavLink, Link } from "react-router-dom";
 import { useAppSelector, useAppDispatch } from "../../custom-hooks/hooks";
 import { TApplicationActions } from "../../utils/types";
+import { getUser } from "../../utils/functions";
+import { ROUTE_PROFILE,ROUTE_PROFILE_ORDERS } from "../../utils/const";
 import {
   fetchLogout,
   fetchGetUser,
@@ -20,7 +22,7 @@ import styles from "./index.module.scss";
 
 const ProfilePage = () => {
   const dispatch = useAppDispatch();
-  const profileForm = useAppSelector((store) => store.userReducer);
+  const profileForm = useAppSelector(getUser);
   const { values, handleChange, setValues } = useForm({});
   const [disabledInput, setDisabledInput] = useState({
     name: true,
@@ -43,6 +45,7 @@ const ProfilePage = () => {
 
   useEffect(() => {
     getFetchToken(fetchGetUser(profileForm.accessToken));
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [profileForm.accessToken]);
 
   const onIconClick = (ref:React.RefObject<HTMLInputElement>) => {
@@ -110,7 +113,7 @@ const ProfilePage = () => {
       <div className={`${styles.profileNav} mr-15`}>
         <NavLink
           className={`text text_type_main-medium ${styles.profileNavLink}`}
-          to="/profile"
+          to={ROUTE_PROFILE}
           activeClassName={styles.activeNavLink}
           exact={true}
         >
@@ -118,7 +121,7 @@ const ProfilePage = () => {
         </NavLink>
         <NavLink
           className={`text text_type_main-medium ${styles.profileNavLink}`}
-          to="/profile/orders"
+          to={ROUTE_PROFILE_ORDERS}
           activeClassName={styles.activeNavLink}
           exact={true}
         >

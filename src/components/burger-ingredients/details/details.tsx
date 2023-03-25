@@ -1,23 +1,27 @@
 import { useParams } from "react-router-dom";
-import { FC } from "react";
+import { FC,useMemo } from "react";
 import { useAppSelector } from "../../../custom-hooks/hooks";
 
 import styles from "./details.module.scss";
 
 import { CAL_TITLE, PR_TITLE, FA_TITLE, CAR_TITLE } from "../../../utils/const";
+import { getBurgerIngredientsReducer } from "../../../utils/functions";
 
 type TIngredientDetails = {
   closeModal?: Function;
 }
 
 const IngredientDetails: FC<TIngredientDetails> = () => {
-  const { ingredients } = useAppSelector((store) => store.burgerIngredientsReducer);
+  const { ingredients } = useAppSelector(getBurgerIngredientsReducer);
   let { id }: { id: string } = useParams();
-  if (!ingredients) {
-    return <div>Loading...</div>;
-  }
-  const currentIngredient = ingredients.find(el => el._id === id);
+  const currentIngredient = useMemo(() => {
+    return ingredients.find(el => el._id === id);
+  },[ingredients,id]);
 
+  if (!ingredients) {
+    return <div>Загрузка...</div>;
+  }
+  console.log("rend");
   return (
     currentIngredient ?
       <div className={`${styles.modal}`}>

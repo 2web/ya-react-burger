@@ -26,7 +26,7 @@ class ErrorBoundary extends React.Component<ErrorBoundaryProps, ErrorBoundarySta
       return (
         <section className={"p-10 text text_type_main-medium"}>
           <h1>Что-то пошло не так :(</h1>
-          <p>Произошла ошибка.</p>
+          <p>Произошла скриптовая ошибка.</p>
         </section>
       );
     }

@@ -2,10 +2,12 @@ import React, { ReactElement, useEffect, FC } from "react";
 import { useAppDispatch, useAppSelector } from "../../custom-hooks/hooks";
 import { Route, Redirect, RouteProps  } from "react-router-dom";
 import { fetchToken } from "../../store/reducers/user-auth";
+import { ROUTE_LOGIN, ROUTE_HOME } from "../../utils/const";
+import { getToken } from "../../utils/functions";
 
 export const ProtectedRoute: FC<RouteProps & {children: ReactElement} & {onlyAuth: boolean}> = ({ children, onlyAuth, ...rest }) => {
   const dispatch = useAppDispatch();
-  const token = useAppSelector((store) => store.userReducer.accessToken);
+  const token = useAppSelector(getToken);
 
   const init = () => {
    dispatch(fetchToken())
@@ -27,7 +29,7 @@ export const ProtectedRoute: FC<RouteProps & {children: ReactElement} & {onlyAut
         ) : (
           <Redirect
             to={{
-              pathname: (onlyAuth) ? "/login" : "/",
+              pathname: (onlyAuth) ? ROUTE_LOGIN : ROUTE_HOME,
               state: { from: location },
             }}
           />

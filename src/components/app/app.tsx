@@ -37,7 +37,7 @@ import IngredientPage from "../../pages/ingredients";
 import OrderDetail from "../order/detail/detail";
 import Modal from "../modal/modal";
 import IngredientDetails from "../burger-ingredients/details/details";
-import { ILocationState } from "../../models/models.ts";
+import { ILocationState } from "../../models/models";
 
 export const App: FC = () => {
   const dispatch: Function = useAppDispatch();

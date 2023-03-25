@@ -53,7 +53,7 @@ export type TmodalIngredientState = {
 };
 
 export type TmodalOrderState = {
-  number: number | null
+  number: number | null;
 };
 
 export type TuserState = {
@@ -67,18 +67,18 @@ export type TingredientType = {
 };
 
 export type TConstructorDraggableIngredient = {
-  index: number,
-  item: IDrgagItem,
-  handleClose: Function,
-  moveCard: Function,
+  index: number;
+  item: IDrgagItem;
+  handleClose: Function;
+  moveCard: Function;
 }
 
 export type TOrders = {
-  createdAt: string
-  updatedAt: string
-  ingredients: string[]
-  name: string
-  number: number
-  status: string
-  _id: string
+  createdAt: string;
+  updatedAt: string;
+  ingredients: string[];
+  name: string;
+  number: number;
+  status: string;
+  _id: string;
 }

@@ -19,6 +19,13 @@ import { v4 as uuidv4 } from "uuid";
 
 import { useAppSelector, useAppDispatch } from "../../custom-hooks/hooks";
 import { IDrgagItem, IIngredientItem } from "../../utils/types";
+import { 
+  getOrder,
+  getToken,
+  getLoad,
+  getConstrIngredients,
+  getConstrBun,
+  getTotalConstrPrice } from "../../utils/functions";
 
 import {
   SET_CONSTRUCTOR_BUN,
@@ -29,17 +36,17 @@ import {
 } from "../../store/actions/burgerIngredientsActions";
 import { postOrder } from "../../store/reducers/send-order";
 
+
 const BurgerConstructor = () => {
-  const order = useAppSelector((store) => store.modalOrderReducer);
-  const token = useAppSelector((store) => store.userReducer.accessToken);
-  const isLoadOrder = useAppSelector(store => store.modalOrderReducer.isLoad)
+  const order = useAppSelector(getOrder);
+  const token = useAppSelector(getToken);
+  const isLoadOrder = useAppSelector(getLoad);
+  const constructorIngredients = useAppSelector(getConstrIngredients);
+  const constructorBun = useAppSelector(getConstrBun);
+  const totalConstructorPrice = useAppSelector(getTotalConstrPrice);
+
   const history = useHistory();
-
-
-  const constructorIngredients = useAppSelector((store) => store.constructorReducer.constructorIngredients);
-  const constructorBun = useAppSelector((store) => store.constructorReducer.constructorBun);
-  const totalConstructorPrice = useAppSelector((store) => store.constructorReducer.totalConstructorPrice);
-
+  
   const [visibleModal, setVisibleModal] = useState<boolean>(false);
   const [heightTopScrollBlock, setHeightTopScrollBlock] = useState<number>(0);
 
