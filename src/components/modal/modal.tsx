@@ -2,7 +2,6 @@ import { CloseIcon } from "@ya.praktikum/react-developer-burger-ui-components";
 import { FC, useEffect } from "react";
 import styles from "./modal.module.scss";
 import { createPortal } from "react-dom";
-import PropTypes from "prop-types";
 
 import ModalOverlay from "./modaloverlay";
 
@@ -35,14 +34,12 @@ const Modal: FC<TMyModal> = ({ children, setVisible, hideDefaultClose, modalGoBa
       document.removeEventListener("keydown", closeByEscape);
     };
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [setVisible]);
+  }, []);
 
   if (!children) return null;
 
   return createPortal(
-    <ModalOverlay
-      onClick={closePopup}
-    >
+    <ModalOverlay onClick={closePopup}>
       <div
         className={styles.myModalContent}
         onClick={(e) => e.stopPropagation()}
@@ -60,13 +57,6 @@ const Modal: FC<TMyModal> = ({ children, setVisible, hideDefaultClose, modalGoBa
     </ModalOverlay>,
     modalRoot
   );
-};
-
-Modal.propTypes = {
-  children: PropTypes.element,
-  modalGoBack: PropTypes.func,
-  setVisible: PropTypes.func,
-  hideDefaultClose: PropTypes.bool,
 };
 
 export default Modal;

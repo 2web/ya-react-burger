@@ -17,6 +17,8 @@ export const SET_CONSTRUCTOR_BUN: "SET_CONSTRUCTOR_BUN" = "SET_CONSTRUCTOR_BUN";
 export const SET_CONSTRUCTOR_PRICE: "SET_CONSTRUCTOR_PRICE" =
   "SET_CONSTRUCTOR_PRICE";
 export const SET_ORDER_NUMBER: "SET_ORDER_NUMBER" = "SET_ORDER_NUMBER";
+export const SEND_ORDER_SUCCESS: "SEND_ORDER_SUCCESS" = "SEND_ORDER_SUCCESS";
+export const SEND_ORDER: "SEND_ORDER" = "SEND_ORDER";
 export const SET_CURRENT_INGREDIENT: "SET_CURRENT_INGREDIENT" =
   "SET_CURRENT_INGREDIENT";
 export const DEL_CURRENT_INGREDIENT: "DEL_CURRENT_INGREDIENT" =
@@ -62,6 +64,12 @@ export interface ISetOrderNumber {
   readonly type: typeof SET_ORDER_NUMBER;
   readonly number: number | null;
 }
+export interface ISendOrderSuccess {
+  readonly type: typeof SEND_ORDER_SUCCESS;
+}
+export interface ISendOrder {
+  readonly type: typeof SEND_ORDER;
+}
 export interface ISetCurrentIngredients {
   readonly type: typeof SET_CURRENT_INGREDIENT;
   readonly currentIngredient: IDrgagItem;
@@ -82,17 +90,22 @@ export type TBurgerIngredientsActions =
   | ISetConstructorBun
   | ISetConstructorPrice
   | ISetOrderNumber
+  | ISendOrderSuccess
+  | ISendOrder
   | IDelCurrentIngredient;
 
 export const loadIngredientsRequest = (
   isLoading: boolean
 ): ILoadIngredientsRequest => ({ type: LOAD_INGREDIENTS_REQUEST, isLoading });
+
 export const loadIngredientsSuccess = (
   ingredients: IDrgagItem[]
 ): ILoadIngredientsSuccess => ({ type: LOAD_INGREDIENTS_SUCCESS, ingredients });
+
 export const loadIngredientsError = (
   isError: boolean
 ): ILoadIngredientsError => ({ type: LOAD_INGREDIENTS_ERROR, isError });
+
 export const updateIngredients = (
   ingredients: IDrgagItem[]
 ): IUpdateIngredients => ({ type: UPDATE_INGREDIENTS, ingredients });
@@ -103,21 +116,25 @@ export const setConstructorIngredients = (
   type: SET_CONSTRUCTOR_INGREDIENTS,
   ingredient,
 });
+
 export const updateConstructorIngredients = (
   ingredients: IDrgagItem[]
 ): IUpdateConstructorIngredients => ({
   type: UPDATE_CONSTRUCTOR_INGREDIENTS,
   ingredients,
 });
+
 export const delConstructorIngredients = (
   curentIndex: number
 ): IDelConstructorIngredients => ({
   type: DEL_CONSTRUCTOR_INGREDIENTS,
   curentIndex,
 });
+
 export const setConstructorBun = (
   constructorBun: IIngredientItem | null
 ): ISetConstructorBun => ({ type: SET_CONSTRUCTOR_BUN, constructorBun });
+
 export const setConstructorPrice = (
   thisTotalSumm: number
 ): ISetConstructorPrice => ({ type: SET_CONSTRUCTOR_PRICE, thisTotalSumm });
@@ -126,6 +143,10 @@ export const setOrderNumber = (number: number | null): ISetOrderNumber => ({
   type: SET_ORDER_NUMBER,
   number,
 });
+export const sendOrder = (): ISendOrder => ({ type: SEND_ORDER });
+export const sendOrderSuccess = (): ISendOrderSuccess => ({
+  type: SEND_ORDER_SUCCESS,
+});
 
 export const setCurrentIngredients = (
   currentIngredient: any
@@ -133,6 +154,7 @@ export const setCurrentIngredients = (
   type: SET_CURRENT_INGREDIENT,
   currentIngredient,
 });
+
 export const delCurrentIngredient = (): IDelCurrentIngredient => ({
   type: DEL_CURRENT_INGREDIENT,
 });

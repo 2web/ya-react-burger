@@ -26,6 +26,8 @@ const ForgotPassword = () => {
       if (responce.success) {
         setRedirect(true);
       }
+    }).catch((error) => {
+      console.log(error);
     });
   };
 

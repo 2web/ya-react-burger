@@ -19,6 +19,13 @@ import { v4 as uuidv4 } from "uuid";
 
 import { useAppSelector, useAppDispatch } from "../../custom-hooks/hooks";
 import { IDrgagItem, IIngredientItem } from "../../utils/types";
+import { 
+  getOrder,
+  getToken,
+  getLoad,
+  getConstrIngredients,
+  getConstrBun,
+  getTotalConstrPrice } from "../../utils/functions";
 
 import {
   SET_CONSTRUCTOR_BUN,
@@ -29,24 +36,17 @@ import {
 } from "../../store/actions/burgerIngredientsActions";
 import { postOrder } from "../../store/reducers/send-order";
 
+
 const BurgerConstructor = () => {
-  const token = useAppSelector((store) => store.userReducer.accessToken);
+  const order = useAppSelector(getOrder);
+  const token = useAppSelector(getToken);
+  const isLoadOrder = useAppSelector(getLoad);
+  const constructorIngredients = useAppSelector(getConstrIngredients);
+  const constructorBun = useAppSelector(getConstrBun);
+  const totalConstructorPrice = useAppSelector(getTotalConstrPrice);
+
   const history = useHistory();
-
-  // eslint-disable-next-line no-unused-vars
-  // const { ingredients } = useAppSelector(
-  //   (store) => store.burgerIngredientsReducer
-  // );
-  const constructorIngredients = useAppSelector(
-    (store) => store.constructorReducer.constructorIngredients
-  );
-  const constructorBun = useAppSelector(
-    (store) => store.constructorReducer.constructorBun
-  );
-  const totalConstructorPrice = useAppSelector(
-    (store) => store.constructorReducer.totalConstructorPrice
-  );
-
+  
   const [visibleModal, setVisibleModal] = useState<boolean>(false);
   const [heightTopScrollBlock, setHeightTopScrollBlock] = useState<number>(0);
 
@@ -73,6 +73,14 @@ const BurgerConstructor = () => {
   });
 
   useEffect(() => {
+    if (order.isLoad) {
+      setVisibleModal(true);
+    }else{
+      // setVisibleModal(false)
+    }
+  }, [order]);
+
+  useEffect(() => {
     setPrice();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [constructorBun, constructorIngredients]);
@@ -94,8 +102,7 @@ const BurgerConstructor = () => {
     if (token) {
       let orderId = constructorIngredients.map((ingr: IDrgagItem) => ingr._id);
       orderId = [constructorBun!._id, ...orderId, constructorBun!._id];
-      dispatch(postOrder(orderId));
-      setVisibleModal(true);
+      dispatch(postOrder(orderId,token));
     } else {
       history.push("/login");
     }
@@ -186,15 +193,11 @@ const BurgerConstructor = () => {
           </div>
         </div>
         <div
-          className={`${
-            !constructorIngredients.length && styles.constructorMain
-          }`}
+          className={`${!constructorIngredients.length && styles.constructorMain}`}
         >
           {constructorIngredients.length ? (
             <Bar
-              style={{
-                maxHeight: `${heightTopScrollBlock}px`,
-              }}
+              style={{maxHeight: `${heightTopScrollBlock}px`,}}
               autoHide={false}
               scrollableNodeProps={{ ref: scrollableNodeRef }}
             >
@@ -237,9 +240,7 @@ const BurgerConstructor = () => {
                 <div
                   className={`constructor-element ${styles.constructorElement} constructor-element_pos_bottom`}
                 >
-                  <span
-                    className={`constructor-element__text ${styles.constructorElementTextPreview}`}
-                  >
+                  <span className={`constructor-element__text ${styles.constructorElementTextPreview}`}>
                     {"Перенесите сюда булку"}
                   </span>
                 </div>
@@ -255,13 +256,13 @@ const BurgerConstructor = () => {
               <CurrencyIcon type="primary" />
             </div>
             <Button
-              disabled={!constructorBun}
+              disabled={!constructorBun || isLoadOrder}
               type="primary"
               size="large"
               onClick={sendOrder}
               htmlType="button"
             >
-              Оформить заказ
+              {isLoadOrder ? 'Обрабатываем заказ' : 'Оформить заказ'}
             </Button>
           </div>
         </div>

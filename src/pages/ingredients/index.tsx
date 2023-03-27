@@ -3,16 +3,13 @@ import { useAppSelector, useAppDispatch } from "../../custom-hooks/hooks";
 import { useParams } from "react-router-dom";
 import styles from "./index.module.scss";
 import { getIngredients } from "../../utils/init";
+import { getBurgerIngredientsReducer } from "../../utils/functions";
 
 const IngredientPage = () => {
-  const { ingredients } = useAppSelector(
-    (store) => store.burgerIngredientsReducer
-  );
+  const { ingredients } = useAppSelector(getBurgerIngredientsReducer);
   const dispatch: Function = useAppDispatch();
 
-  useEffect(() => {
-    dispatch(getIngredients());
-  }, [dispatch]);
+  useEffect(() => {dispatch(getIngredients());}, [dispatch]);
 
   let { id }: { id: string } = useParams();
   const currentIngredient = ingredients.find(el => el._id === id);

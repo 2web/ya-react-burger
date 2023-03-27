@@ -1,10 +1,12 @@
 import { request } from "../../utils/fetch";
 import { ORDERS_URL } from "../../utils/const";
 import { AppDispatch, AppThunk } from "../../utils/types";
-import { setOrderNumber } from "../actions/burgerIngredientsActions";
+import { sendOrder, sendOrderSuccess, setOrderNumber } from "../actions/burgerIngredientsActions";
+import { fetchToken } from "./user-auth";
 
 export const postOrder: AppThunk = (ingredientsID: string[], token: string | null) => {
   return (dispatch: AppDispatch) => {
+    dispatch(sendOrder());
     request(ORDERS_URL, {
       method: "POST",
       headers: {
@@ -15,9 +17,17 @@ export const postOrder: AppThunk = (ingredientsID: string[], token: string | nul
     })
       .then((res:any) => {
         if (res.success) {
-          dispatch(setOrderNumber(res.order.number as number))
+          const number = res.order.number;
+          dispatch(setOrderNumber(number));
+          dispatch(sendOrderSuccess());
         }
       })
-      .catch((error) => error)
+      .catch((error) => {
+        if (error.message === "jwt expired"){
+          dispatch(fetchToken());
+          
+          console.log(error.message);
+        }
+      })
   };
 };

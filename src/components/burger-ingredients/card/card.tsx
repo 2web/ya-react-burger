@@ -1,10 +1,17 @@
 import { CurrencyIcon } from "@ya.praktikum/react-developer-burger-ui-components";
 import styles from "./card.module.scss";
-import PropTypes from "prop-types";
 import { useDrag } from "react-dnd";
 import { useLocation, Link } from "react-router-dom";
+import { IIngredientItem } from "../../../utils/types";
+import { FC } from "react";
 
-const IngredientCard = ({ ingredientCard, openModal, total }) => {
+type TIngredientCard = {
+  ingredientCard: IIngredientItem;
+  openModal: Function;
+  total: number;
+}
+
+const IngredientCard: FC<TIngredientCard> = ({ ingredientCard, openModal, total }) => {
   const location = useLocation();
   const [, dragRef] = useDrag({
     type: "card",
@@ -44,27 +51,6 @@ const IngredientCard = ({ ingredientCard, openModal, total }) => {
       </div>
     </Link>
   );
-};
-
-const ingredientCardPropTypes = PropTypes.shape({
-  _id: PropTypes.string.isRequired,
-  name: PropTypes.string.isRequired,
-  type: PropTypes.string.isRequired,
-  proteins: PropTypes.number.isRequired,
-  fat: PropTypes.number.isRequired,
-  carbohydrates: PropTypes.number.isRequired,
-  calories: PropTypes.number.isRequired,
-  price: PropTypes.number.isRequired,
-  image: PropTypes.string.isRequired,
-  image_mobile: PropTypes.string.isRequired,
-  image_large: PropTypes.string.isRequired,
-  __v: PropTypes.number,
-});
-
-IngredientCard.propTypes = {
-  ingredientCard: ingredientCardPropTypes,
-  openModal: PropTypes.func,
-  total: PropTypes.number,
 };
 
 export default IngredientCard;

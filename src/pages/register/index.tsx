@@ -7,15 +7,17 @@ import { Link } from "react-router-dom";
 import { useAppSelector, useAppDispatch } from "../../custom-hooks/hooks";
 import { fetchRegister, fetchToken } from "../../store/reducers/user-auth";
 import { useForm } from "../../custom-hooks/use-form";
+import { getToken } from "../../utils/functions";
+import { ROUTE_LOGIN } from "../../utils/const";
 import styles from "./index.module.scss";
 
 const RegisterPage = () => {
   const dispatch: Function = useAppDispatch();
-  const token = useAppSelector((store) => store.userReducer.accessToken);
+  const token = useAppSelector(getToken);
 
   const { values, handleChange } = useForm({});
 
-  const reg = (e) => {
+  const reg = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     dispatch(fetchRegister(values));
   };
@@ -74,7 +76,7 @@ const RegisterPage = () => {
       </div>
       <p className="text text_type_main-default text_color_inactive">
         Вы уже зарегистрированы?{" "}
-        <Link className={`${styles.link}`} to="/login">
+        <Link className={`${styles.link}`} to={ROUTE_LOGIN}>
           Войти
         </Link>
       </p>

@@ -5,6 +5,7 @@ import {
   TOKEN_URL,
   LOGOUT_URL,
   GET_USER_URL,
+  REFRESH_TOKEN
 } from "../../utils/const";
 import {
   userRegister,
@@ -20,7 +21,7 @@ type TStaringObj = {
   [name: string]: string;
 }
 
-export const fetchRegister: AppThunk = ({ email, name, password }: TStaringObj) => {
+export const fetchRegister: AppThunk | any = ({ email, name, password }: TStaringObj) => {
   return (dispatch: AppDispatch) => {
     request(REGISTER_URL, {
       method: "POST",
@@ -34,11 +35,13 @@ export const fetchRegister: AppThunk = ({ email, name, password }: TStaringObj) 
           dispatch(userRegister(res));
         }
       })
-      .catch((error) => error);
+      .catch((error) => {
+        console.log(error);
+      });
   };
 };
 
-export const fetchLogin: AppThunk = ({ email, password }: TStaringObj) => {
+export const fetchLogin: AppThunk | any = ({ email, password }: TStaringObj) => {
   return (dispatch: AppDispatch) => {
     request(LOGIN_URL, {
       method: "POST",
@@ -52,36 +55,43 @@ export const fetchLogin: AppThunk = ({ email, password }: TStaringObj) => {
           dispatch(userLogin(res));
         }
       })
-      .catch((error) => error);
+      .catch((error) => {
+        console.log(error);
+      });
   };
 };
 
-export const fetchToken: AppThunk = () => {
+export const fetchToken: AppThunk | any = () => {
   return (dispatch: AppDispatch) => {
+    if(!localStorage.getItem(REFRESH_TOKEN)) return false;
     request(TOKEN_URL, {
       method: "POST",
       headers: {
         "Content-Type": "application/json;charset=utf-8",
       },
-      body: JSON.stringify({ token: localStorage.getItem("refreshToken") }),
+      body: JSON.stringify({ token: localStorage.getItem(REFRESH_TOKEN) }),
     })
       .then((res: any) => {
         if (res.success) {
           dispatch(userToken(res));
         }
       })
-      .catch((error) => error);
+      .catch((error) => {
+        if (error.message === "jwt expired"){
+          console.log("BAg!");
+        }
+      });
   };
 };
 
-export const fetchLogout: AppThunk = () => {
+export const fetchLogout: AppThunk | any = () => {
   return (dispatch: AppDispatch) => {
     request(LOGOUT_URL, {
       method: "POST",
       headers: {
         "Content-Type": "application/json;charset=utf-8",
       },
-      body: JSON.stringify({ token: localStorage.getItem("refreshToken") }),
+      body: JSON.stringify({ token: localStorage.getItem(REFRESH_TOKEN) }),
     })
       .then((res: any) => {
         if (res.success) {
@@ -92,32 +102,31 @@ export const fetchLogout: AppThunk = () => {
   };
 };
 
-export const fetchGetUser: AppThunk = (accessToken: string) => {
-  return (dispatch) => {
-    request(GET_USER_URL, {
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json;charset=utf-8",
-        Authorization: accessToken,
-      },
-    })
-      .then((res: any) => {
-        if (res.success) {
-          dispatch(getUser(res));
-        } else {
-          dispatch(fetchToken());
-          fetchGetUser(localStorage.getItem("accessToken"));
-        }
+export const fetchGetUser: AppThunk | any = (accessToken: string) => {
+  return (dispatch: AppDispatch) => {
+    if(accessToken !== null) {
+      request(GET_USER_URL, {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json;charset=utf-8",
+          Authorization: `${accessToken}`,
+        },
       })
-      .catch((error) => {
-        if (!error.success) {
-          dispatch(fetchToken());
-        }
-      });
+        .then((res: any) => {
+          if (res.success) {
+            dispatch(getUser(res));
+          }
+        })
+        .catch((error) => {
+          if (!error.success) {
+            dispatch(fetchToken());
+          }
+        });
+    }
   };
 };
 
-export const fetchPatchUser: AppThunk = ({ accessToken, email, name, password }) => {
+export const fetchPatchUser: AppThunk | any = ({ accessToken, email, name, password }: TStaringObj) => {
   return (dispatch: AppDispatch) => {
     request(GET_USER_URL, {
       method: "PATCH",
@@ -132,6 +141,10 @@ export const fetchPatchUser: AppThunk = ({ accessToken, email, name, password })
           dispatch(patchUser(res));
         }
       })
-      .catch((error) => error);
+      .catch((error) => {
+        if (!error.success) {
+          dispatch(fetchToken());
+        }
+      });
   };
 };
