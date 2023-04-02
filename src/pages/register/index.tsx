@@ -5,7 +5,7 @@ import {
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import { Link } from "react-router-dom";
 import { useAppSelector, useAppDispatch } from "../../custom-hooks/hooks";
-import { fetchRegister, fetchToken } from "../../store/reducers/user-auth";
+import { fetchRegister, fetchToken } from "../../store/asyncActions/user-auth";
 import { useForm } from "../../custom-hooks/use-form";
 import { getToken } from "../../utils/functions";
 import { ROUTE_LOGIN } from "../../utils/const";

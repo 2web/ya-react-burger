@@ -1,7 +1,7 @@
 import React, { ReactElement, useEffect, FC } from "react";
 import { useAppDispatch, useAppSelector } from "../../custom-hooks/hooks";
 import { Route, Redirect, RouteProps  } from "react-router-dom";
-import { fetchToken } from "../../store/reducers/user-auth";
+import { fetchToken } from "../../store/asyncActions/user-auth";
 import { ROUTE_LOGIN, ROUTE_HOME } from "../../utils/const";
 import { getToken } from "../../utils/functions";
 

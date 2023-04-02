@@ -14,9 +14,10 @@ import Modal from "../modal/modal";
 import "./styles.css";
 import IngredientDetails from "./details/details";
 import { IDrgagItem } from "../../utils/types";
+import { INGREDIENT_TYPE } from "../../utils/const";
 import { useAppDispatch, useAppSelector } from "../../custom-hooks/hooks";
 
-import { DEL_CURRENT_INGREDIENT, SET_CURRENT_INGREDIENT } from '../../store/actions/burgerIngredientsActions';
+import { DEL_CURRENT_INGREDIENT } from '../../store/actions/burgerIngredientsActions';//, SET_CURRENT_INGREDIENT
 import { 
   getBurgerIngredientsReducer,
   getConstrIngredients,
@@ -78,13 +79,13 @@ const BurgerIngredients = () => {
     }
   };
 
-  const openModal = (currentIngredient: IDrgagItem) => {
-    dispatch({
-      type: SET_CURRENT_INGREDIENT,
-      currentIngredient,
-    });
-    setVisibleModal(true);
-  };
+  // const openModal = (currentIngredient: IDrgagItem) => {
+  //   dispatch({
+  //     type: SET_CURRENT_INGREDIENT,
+  //     currentIngredient,
+  //   });
+  //   setVisibleModal(true);
+  // };
 
   const closeModal = () => {
     setVisibleModal(false);
@@ -234,7 +235,7 @@ const BurgerIngredients = () => {
                   if (ingredientCard._id === element) {
                     total++;
 
-                    if (ingredientCard.type === "Булка") {
+                    if (ingredientCard.type === INGREDIENT_TYPE['bun']) {
                       total++;
                     }
                   }
@@ -245,8 +246,9 @@ const BurgerIngredients = () => {
                     <IngredientCard
                       key={ingredientCard._id}
                       ingredientCard={ingredientCard}
-                      openModal={openModal}
+                      
                       total={total}
+                      data-testid={ingredientCard.type === INGREDIENT_TYPE['bun'] ? 'dragableItemBun' : 'dragableItemIngredient'}
                     />
                   );
                 }

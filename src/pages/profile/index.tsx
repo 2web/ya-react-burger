@@ -16,7 +16,7 @@ import {
   fetchGetUser,
   fetchToken,
   fetchPatchUser,
-} from "../../store/reducers/user-auth";
+} from "../../store/asyncActions/user-auth";
 import { useForm } from "../../custom-hooks/use-form";
 import styles from "./index.module.scss";
 

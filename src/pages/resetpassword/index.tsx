@@ -8,7 +8,7 @@ import { PASSWORD_RESET_URL } from "../../utils/const";
 import { useForm } from "../../custom-hooks/use-form";
 import { request } from "../../utils/fetch";
 import { useAppSelector, useAppDispatch } from "../../custom-hooks/hooks";
-import { fetchToken } from "../../store/reducers/user-auth";
+import { fetchToken } from "../../store/asyncActions/user-auth";
 import styles from "./index.module.scss";
 import { TState } from "../../store/root-reducer";
 

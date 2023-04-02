@@ -10,7 +10,7 @@ const OrderDetails = () => {
   return (
     <div className={styles.container}>
       <p className={`${styles.id} text text_type_digits-large`}>
-        {number && number !== null ? `${number}` : '\u00a0'}
+        {number && number !== null ? <span data-testid="orderModal">`${number}`</span> : '\u00a0'}
       </p>
       <h1 className="text text_type_main-medium mb-15">
         {number && number !== null ? 'идентификатор заказа' : 'Ожидайте...'}
