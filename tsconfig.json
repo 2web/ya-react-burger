@@ -24,7 +24,9 @@
     "noImplicitAny": false,
   },
   "include": [
-    "src", "cypress"
+    "src/**/*.ts",
+    "src/**/*.tsx",
+    "cypress"
   ],
   "exclude": [
     "node_modules",

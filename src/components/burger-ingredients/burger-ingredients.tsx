@@ -246,7 +246,6 @@ const BurgerIngredients = () => {
                     <IngredientCard
                       key={ingredientCard._id}
                       ingredientCard={ingredientCard}
-                      
                       total={total}
                       data-testid={ingredientCard.type === INGREDIENT_TYPE['bun'] ? 'dragableItemBun' : 'dragableItemIngredient'}
                     />
