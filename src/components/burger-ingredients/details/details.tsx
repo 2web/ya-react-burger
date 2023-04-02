@@ -24,7 +24,7 @@ const IngredientDetails: FC<TIngredientDetails> = () => {
   console.log("rend");
   return (
     currentIngredient ?
-      <div className={`${styles.modal}`}>
+      <div className={`${styles.modal}`} data-testid="ingredientModal">
         <div className={`${styles.title}`}>
           <h2 className={`${styles.title} text text_type_main-large`}>
             Детали ингредиента
@@ -34,32 +34,33 @@ const IngredientDetails: FC<TIngredientDetails> = () => {
           src={currentIngredient.image_large}
           alt={currentIngredient.name}
           title={currentIngredient.name}
+          data-testid="ingredientImage"
         />
-        <h3 className={`${styles.iname} text text_type_main-medium mt-4 mb-8`}>
+        <h3 className={`${styles.iname} text text_type_main-medium mt-4 mb-8`} data-testid="ingredientName">
           {currentIngredient.name}
         </h3>
         <div className={`${styles.container}`}>
           <div className={`${styles.block}`}>
             <span className="text text_type_main-default">{CAL_TITLE}</span>
-            <span className="text text_type_digits-default">
+            <span className="text text_type_digits-default" data-testid="ingredientCal">
               {currentIngredient.calories}
             </span>
           </div>
           <div className={`${styles.block}`}>
             <span className="text text_type_main-default">{PR_TITLE}</span>
-            <span className="text text_type_digits-default">
+            <span className="text text_type_digits-default" data-testid="ingredientProt">
               {currentIngredient.proteins}
             </span>
           </div>
           <div className={`${styles.block}`}>
             <span className="text text_type_main-default">{FA_TITLE}</span>
-            <span className="text text_type_digits-default">
+            <span className="text text_type_digits-default" data-testid="ingredientFat">
               {currentIngredient.fat}
             </span>
           </div>
           <div className={`${styles.block}`}>
             <span className="text text_type_main-default">{CAR_TITLE}</span>
-            <span className="text text_type_digits-default">
+            <span className="text text_type_digits-default" data-testid="ingredientCar">
               {currentIngredient.carbohydrates}
             </span>
           </div>

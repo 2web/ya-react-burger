@@ -5,7 +5,7 @@ import {
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import { Link, Redirect, useLocation } from "react-router-dom";
 import { useAppSelector, useAppDispatch } from "../../custom-hooks/hooks";
-import { fetchLogin, fetchToken } from "../../store/reducers/user-auth";
+import { fetchLogin, fetchToken } from "../../store/asyncActions/user-auth";
 import { useForm } from "../../custom-hooks/use-form";
 import { getToken } from "../../utils/functions";
 import { ROUTE_HOME } from "../../utils/const";
@@ -35,7 +35,7 @@ const LoginPage = () => {
   }
 
   return (
-    <form className={`${styles.loginForm}`} onSubmit={login}>
+    <form className={`${styles.loginForm}`} onSubmit={login} data-testid="loginForm">
       <p className="text text_type_main-medium mb-6">Вход</p>
       <div className="mb-6">
         <Input
@@ -47,6 +47,7 @@ const LoginPage = () => {
           error={false}
           errorText={"Ошибка"}
           size={"default"}
+          data-testid="loginEmail"
         />
       </div>
       <div className="mb-6">
@@ -60,6 +61,7 @@ const LoginPage = () => {
           errorText={"Ошибка"}
           size={"default"}
           icon={"ShowIcon"}
+          data-testid="loginPass"
         />
       </div>
       <div className="mb-20">

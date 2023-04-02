@@ -34,7 +34,7 @@ import {
   SET_CONSTRUCTOR_PRICE,
   UPDATE_CONSTRUCTOR_INGREDIENTS,
 } from "../../store/actions/burgerIngredientsActions";
-import { postOrder } from "../../store/reducers/send-order";
+import { postOrder } from "../../store/asyncActions/send-order";
 
 
 const BurgerConstructor = () => {
@@ -261,6 +261,7 @@ const BurgerConstructor = () => {
               size="large"
               onClick={sendOrder}
               htmlType="button"
+              data-testid="orderBtn"
             >
               {isLoadOrder ? 'Обрабатываем заказ' : 'Оформить заказ'}
             </Button>

@@ -6,7 +6,7 @@ import {
   fetchLogout,
   fetchGetUser,
   fetchToken,
-} from '../../store/reducers/user-auth'
+} from '../../store/asyncActions/user-auth'
 
 import OrderBlock from '../../components/order/block/block'
 import { useAppDispatch, useAppSelector } from '../../custom-hooks/hooks'

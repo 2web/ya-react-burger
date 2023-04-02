@@ -1,7 +1,7 @@
 import type { Middleware, MiddlewareAPI } from "redux";
 import type { AppDispatch, RootState } from "../../utils/types";
 import type { wActions} from "./socket-actions";
-import { fetchToken } from '../../store/reducers/user-auth';
+import { fetchToken } from '../../store/asyncActions/user-auth';
 
 export const socketMiddleware = (wsUrl: string, wsActions: typeof wActions): Middleware => {
   return ((store: MiddlewareAPI<AppDispatch, RootState>) => {

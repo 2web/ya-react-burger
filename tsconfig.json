@@ -24,6 +24,13 @@
     "noImplicitAny": false,
   },
   "include": [
-    "src"
+    "src/**/*.ts",
+    "src/**/*.tsx",
+    "cypress"
+  ],
+  "exclude": [
+    "node_modules",
+    "cypress/**/*",
+    "*.cy.tsx",
   ]
 }

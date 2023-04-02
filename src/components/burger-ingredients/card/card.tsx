@@ -7,11 +7,10 @@ import { FC } from "react";
 
 type TIngredientCard = {
   ingredientCard: IIngredientItem;
-  openModal: Function;
   total: number;
 }
 
-const IngredientCard: FC<TIngredientCard> = ({ ingredientCard, openModal, total }) => {
+const IngredientCard: FC<TIngredientCard> = ({ ingredientCard, total, ...props }) => {
   const location = useLocation();
   const [, dragRef] = useDrag({
     type: "card",
@@ -25,6 +24,7 @@ const IngredientCard: FC<TIngredientCard> = ({ ingredientCard, openModal, total 
         pathname: `/ingredients/${ingredientCard._id}`, 
         state: { background: location },
       }}
+      {...props}
     >
       <div ref={dragRef} className={styles.ingredientCard}>
         {total !== 0 && (

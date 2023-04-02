@@ -48,6 +48,7 @@ const Modal: FC<TMyModal> = ({ children, setVisible, hideDefaultClose, modalGoBa
           <div
             className={`${styles.closeButton}`}
             onClick={closePopup}
+            data-testid="closeModal"
           >
             <CloseIcon type="primary" />
           </div>
